@@ -1,5 +1,6 @@
 from modules.name import Name
 from modules.phone import Phone
+from modules.email import Email
 from modules.birthday import Birthday
 
 
