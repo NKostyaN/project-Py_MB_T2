@@ -65,6 +65,17 @@ def main():
 
         elif command in ["help", "?"]:
             print(show_help())
+        
+         elif command == "add-email":
+            dirty = True
+            print(bot.add_email(args, book))
+        
+        elif command == "change-email":
+            dirty = True
+            print(bot.change_email(args, book))
+        
+        elif command == "show-email":
+            print(bot.show_email(args, book))
 
         else:
             print(

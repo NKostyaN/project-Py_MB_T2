@@ -176,7 +176,8 @@ def show_all(book: AddressBook) -> str:
     for name in book.keys():
         rec = book.get(name)
         bday = f"; birthday: {highlight(rec.birthday)}" if str(rec.birthday) != "None" else ""
-        phonebook += f"{highlight(name)}, phones: {highlight(rec.phones_list())}{bday}\n"
+        user_email = f"; email: {highlight(rec.email)}" if str(rec.email) != "None" else ""
+        phonebook += f"{highlight(name)}, phones: {highlight(rec.phones_list())}{bday}{user_email}\n"
     if phonebook == "":
         return "Phonebook is empty."
     else:
