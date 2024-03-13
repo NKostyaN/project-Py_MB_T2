@@ -1,4 +1,5 @@
 from datetime import datetime, timedelta
+import re
 
 
 def highlight(txt: str) -> str:
@@ -42,6 +43,9 @@ def show_help() -> str:
         f"{highlight("remove [username]")} - remove contact from phonebook\n"
         f"{highlight("remove-phone [username] [phone]")} - remove phone from contact\n"
         f"{highlight("phone [username]")} - show all phones of contact\n"
+        f"{highlight("add-email [username] [email]")} - adding e-mail of contact\n"
+        f"{highlight("change-email [username] [new email]")} - changing e-mail of contact\n"
+        f"{highlight("show-email [username]")} - show email of contact\n"
         f"{highlight("add-birthday [username] [birthday]")} - adding birthday of contact in {highlight("DD.MM.YYYY")} format\n"
         f"{highlight("show-birthday [username]")} - show birthday of the contact\n"
         f"{highlight("birthdays")} - show all contacts with birthdays on next week\n"
@@ -62,7 +66,22 @@ def check_date(date_str: str) -> str:
     except Exception as e:
         print(f"{warning(f"Error in {check_date.__name__}:")} {e}")
         print(f"Use {highlight("DD.MM.YYYY")} format please\n")
-    
+
+
+def validate_email(email_str: str) -> str:
+    pattern = r'^[\w\.-]+@[\w\.-]+\.\w+$'
+    if re.match(pattern, email_str):
+        return email_str
+    else:
+        raise ValueError()
+
+def check_email(email_str: str) -> str:
+    try:
+        validated_email = validate_email(email_str)
+        return validated_email 
+    except Exception as e:
+        print(f"{warning(f"Error in {check_email.__name__}:")} {e}")
+        print(f"Use {highlight("e-mail")} format please\n")   
     
 
 def get_birthdays_per_week(users: list) -> str:
