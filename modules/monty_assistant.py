@@ -1,6 +1,8 @@
 from helpers.monty_utils import highlight, warning, get_birthdays_per_week, strip_phone_number
 from modules.address_book import AddressBook
 from modules.record import Record
+from modules.notebook import NoteBook
+
 
 
 def input_error(func) -> str:
@@ -146,3 +148,34 @@ def show_all(book: AddressBook) -> str:
         return "Phonebook is empty."
     else:
         return phonebook
+    
+def add_note(args, notes: NoteBook) -> str:
+    title, text = args
+    if notes.search_by_title(title):
+        return f"Title {highlight(title)} already exists."
+    else:
+        notes.add_note(title.capitalize(), text)
+        return f"Note {title} has been added."
+
+def change_note(args, notes: NoteBook) -> str:
+    title, new_text = args
+    if notes.find_by_title(title):
+        notes.edit_note(title, new_text)
+        return f"Note {highlight(title)} has been edited."
+    else:
+        return f"Note with title {highlight(title)} not found."
+
+def delete_note(args, notes: NoteBook) -> str:
+    title = args[0]
+    if notes.find_by_title(title):
+        notes.remove_note(title)
+        return f"Note {highlight(title)} has been deleted."
+    else:
+        return f"Note with title {highlight(title)} not found."
+
+def find_note(args, notes: NoteBook) -> str:
+    title = args[0]
+    if notes.find_by_title(title):
+        return f"Note with title {highlight(title)} found."
+    else:
+        return f"Note with title {highlight(title)} not found."

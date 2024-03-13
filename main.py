@@ -12,6 +12,7 @@ def parse_input(user_input) -> str:
 def main():
     print("\nWelcome to the assistant bot!")
     book = load_from_json()
+    notes = load_from_json()
     dirty = False
     
     while True:
@@ -66,17 +67,19 @@ def main():
 
         elif command == "add-note":
             dirty = True
-            
+            print(bot.add_note(args, notes))
+
+        elif command == "find-note":
+            dirty = True
+            print(bot.find_note(args, notes))
+
         elif command == "edit-note":
             dirty = True
-            pass
-        
+            print(bot.change_note(args, notes))
+
         elif command == "delete-note":
             dirty = True
-            pass
-
-        elif command == "show-all-notes":
-            pass
+            print(bot.delete_note(args, notes))
 
         elif command in ["help", "?"]:
             print(show_help())
