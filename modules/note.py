@@ -7,7 +7,8 @@ class Note():
         self.creation_date = datetime.now()
 
     def __str__(self):
-        return f"Title: {str(self.title)}\n\
+        return f"\
+        Title: {str(self.title)}\n\
         Text: {str(self.text)}\n\
         Creation date: {str(self.creation_date)}"
     
