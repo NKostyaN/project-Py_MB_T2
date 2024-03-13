@@ -66,7 +66,7 @@ def main():
         elif command in ["help", "?"]:
             print(show_help())
         
-         elif command == "add-email":
+        elif command == "add-email":
             dirty = True
             print(bot.add_email(args, book))
         
