@@ -52,6 +52,7 @@ def main():
             print(bot.add_birthday(args, book))
 
         elif command == "add-address":
+            dirty = True
             print(bot.add_address(args, book))
 
         elif command == "show-birthday":

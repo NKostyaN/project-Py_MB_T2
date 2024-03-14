@@ -52,7 +52,7 @@ class Record:
             phones.append(str(item))
         return {
             "name": str(self.name),
-            "address": str(self.address),
             "phones": phones,
             "birthday": str(self.birthday),
+            "address": str(self.address.to_json()),
         }
