@@ -2,6 +2,7 @@ from modules.name import Name
 from modules.phone import Phone
 from modules.email import Email
 from modules.birthday import Birthday
+from modules.address import Address
 
 
 class Record:
@@ -10,6 +11,7 @@ class Record:
         self.phones = []
         self.birthday = None
         self.email = None
+        self.address = None
 
     def __str__(self):
         res = f"{self.name}, phones: {'; '.join(p for p in self.phones)}"
@@ -50,6 +52,9 @@ class Record:
     def add_email(self, email) -> str:
         self.email = Email(email)
 
+    def add_address(self, address) -> str:
+        self.address = Address(address)
+
     def to_json(self) -> dict:
         phones = []
         for item in self.phones:
@@ -59,4 +64,5 @@ class Record:
             "phones": phones,
             "birthday": str(self.birthday),
             "email": str(self.email),
+            "address": str(self.address.to_json()),
         }

@@ -115,6 +115,20 @@ def add_birthday(args, book: AddressBook) -> str:
             return ""
     else:
         return f"Contact {highlight(name)} does not exist. Check your spelling."
+    
+
+@input_error
+def add_address(args, book: AddressBook) -> str:
+    name = args[0]
+    address = ""
+    for i in args[1: ]:
+        address += " " + i
+    rec = book.find(name)
+    if rec:
+        rec.add_address(address)
+        return f"Address added to contact {highlight(name)}."
+    else:
+        return f"Contact {highlight(name)} does not exist. Check your spelling."
 
 
 @input_error
@@ -178,6 +192,8 @@ def show_all(book: AddressBook) -> str:
         bday = f"; birthday: {highlight(rec.birthday)}" if str(rec.birthday) != "None" else ""
         user_email = f"; email: {highlight(rec.email)}" if str(rec.email) != "None" else ""
         phonebook += f"{highlight(name)}, phones: {highlight(rec.phones_list())}{bday}{user_email}\n"
+        adr = f"; {highlight(rec.address)}" if str(rec.address) != "None" else ""
+        phonebook += f"{highlight(name)}, phones: {highlight(rec.phones_list())}{bday}{adr}\n"
     if phonebook == "":
         return "Phonebook is empty."
     else:
