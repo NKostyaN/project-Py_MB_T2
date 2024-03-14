@@ -31,8 +31,10 @@ def show_help() -> str:
         f"{highlight("remove-phone [username] [phone]")} - remove phone from contact\n"
         f"{highlight("phone [username]")} - show all phones of contact\n"
         f"{highlight("add-birthday [username] [birthday]")} - adding birthday of contact in {highlight("DD.MM.YYYY")} format\n"
+        f"{highlight("change-birthday [username] [birthday]")} - changing birthday of contact in {highlight("DD.MM.YYYY")} format\n"
         f"{highlight("show-birthday [username]")} - show birthday of the contact\n"
         f"{highlight("birthdays")} - show all contacts with birthdays on next week\n"
+        f"{highlight("birthdays [days]")} - show all contacts with birthdays during next {highlight("[days]")} days\n"
         f"{highlight("all")} - show all contacts in phonebook\n"
         f"{highlight("close")}, {highlight("exit")}, {highlight("quit")}, {highlight("bye")} - close application\n"
         f"{highlight("hello")}, {highlight("hi")} - just a greeting\n"
@@ -53,7 +55,7 @@ def check_date(date_str: str) -> str:
     
     
 
-def get_birthdays_per_week(users: list) -> str:
+def get_birthdays_per_week(users: list, during_days=7) -> str:
     today = datetime.today().date()
     weekdays = {
         "Monday": [],
@@ -84,7 +86,7 @@ def get_birthdays_per_week(users: list) -> str:
                 bday_this_year += timedelta(days=7 - weekday)
 
             delta = (bday_this_year - today).days
-            if delta < 7:
+            if delta < during_days:
                 weekdays[bday_this_year.strftime("%A")].append(name)
 
         bdays = {}
@@ -95,7 +97,7 @@ def get_birthdays_per_week(users: list) -> str:
             for k, v in bdays.items():
                 print(f"{highlight(str(k))}: {", ".join(v)}")
         else:
-            print("There is no one to congratulate during the week")
+            print("There is no one to congratulate during the week" if during_days == 7 else f"There is no one to congratulate during {during_days} days")
 
     except TypeError:
         print(error("Something wrong in input data, pls check it"))

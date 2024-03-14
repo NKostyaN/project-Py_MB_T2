@@ -67,7 +67,7 @@ def main():
             print(bot.show_birthday(args, book))
 
         elif command == "birthdays":
-            bot.birthdays(book)
+            bot.birthdays(args, book)
 
         elif command == "phone":
             print(bot.show_phone(args, book))

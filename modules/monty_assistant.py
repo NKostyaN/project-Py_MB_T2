@@ -10,10 +10,7 @@ def input_error(func) -> str:
         except Exception as e:
             error_string = f"{warning(f"Error in {func.__name__}:")} {e}\n"
             if str(func.__name__) == "add_contact":
-                if e == ValueError:
-                    error_string += f"Wrong phone format, pls use {highlight("correct phone format")}."
-                else:
-                    error_string += f"Wrong arguments count, pls use {highlight("add [username] [phone]")}."
+                error_string += f"Wrong arguments count, pls use {highlight("add [username] [phone]")}."
             elif str(func.__name__) == "change_contact":
                 error_string += f"Wrong arguments count, pls use {highlight("change [username] [phone]")}."
             elif str(func.__name__) == "show_phone":
@@ -143,8 +140,6 @@ def change_birthday(args, book: AddressBook) -> str:
     else:
         return f"Contact {highlight(name)} does not exist. Check your spelling."
 
-change_birthday
-
 
 @input_error
 def show_birthday(args, book: AddressBook) -> str:
@@ -158,12 +153,14 @@ def show_birthday(args, book: AddressBook) -> str:
 
 
 @input_error
-def birthdays(book: AddressBook) -> str:
+def birthdays(args, book: AddressBook) -> str:
+    days = int(args[0]) if args else 7
+    days = 7 if days < 1 else days
     phonebook = []
     for name in book.keys():
         if str(book.get(name).birthday) != "None":
             phonebook.append({name : str(book.get(name).birthday)})
-    return get_birthdays_per_week(phonebook)
+    return get_birthdays_per_week(phonebook, days)
     
 
 def show_all(book: AddressBook) -> str:
