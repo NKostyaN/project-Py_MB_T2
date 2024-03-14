@@ -98,6 +98,24 @@ def find_contact(args, book: AddressBook) -> str:
         return f"Contact {highlight(name)} does not exist. Check your spelling."
     
 @input_error
+def find_phone(args, book: AddressBook) -> str:
+    phone = args[0]
+    phone = check_phone(phone)
+    finded = []
+    for key, rec in book.items():
+        for item in rec.phones:
+            if phone == str(item):
+                finded.append(rec)
+    if finded:
+        res = ""
+        for item in finded:
+            res += f"{str(item)}\n"
+        return res
+    else:
+        return f"Phone {phone} not finded"
+    
+    
+@input_error
 def remove_phone(args, book: AddressBook) -> str:
     name, phone = args
     name = name.capitalize()

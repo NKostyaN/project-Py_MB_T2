@@ -16,7 +16,7 @@ def parse_input(user_input) -> str:
 
 
 def main():
-    words = WordCompleter(["hello", "hi", "close", "exit", "quit", "bye", "add", "change", "rename", "remove", "remove-phone", "add-birthday", "show-birthday", "change-birthday", "birthdays", "find-contact", "all", "help"])
+    words = WordCompleter(["hello", "hi", "close", "exit", "quit", "bye", "add", "change", "rename", "remove", "remove-phone", "add-birthday", "show-birthday", "change-birthday", "birthdays", "find-contact", "find-phone", "all", "help"])
     print("\nWelcome to the assistant bot!")
     book = load_from_json()     # to do -- >  book = load_from_json("phonebook.json")
                                 # to do -- >  notes = load_from_json("notebook.json")
@@ -71,6 +71,9 @@ def main():
 
         elif command == "find-contact":
             print(bot.find_contact(args, book))
+
+        elif command == "find-phone":
+            print(bot.find_phone(args, book))
 
         elif command == "all":
             print(bot.show_all(book))
