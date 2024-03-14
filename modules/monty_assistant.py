@@ -149,11 +149,14 @@ def show_all(book: AddressBook) -> str:
         return phonebook
     
 def add_note(args, notes: NoteBook) -> str:
-    if len(args) < 2:
-        print("Wrong arguments count, use [add-note] [title] [text].")
+    title = args[0]
+    text = ""
+    for i in args[1: ]:
+        text += " " + i
+    rec = notes.search_by_title(title)
+    if rec:
+        return f"Note {title} already exist."
     else:
-        title = args[0]
-        text = ' '.join(args[1:])  
         notes.add_note(title.capitalize(), text)
         return f"Note {title} has been added."
 
