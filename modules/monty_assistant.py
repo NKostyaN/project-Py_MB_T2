@@ -178,6 +178,5 @@ def find_note(args, notes: NoteBook) -> str:
     res = notes.search_by_title(title)
     if res:
         return str(res.text)
-        # return f"Note with title {highlight(title)} found."
     else:
         return f"Note with title {highlight(title)} not found."

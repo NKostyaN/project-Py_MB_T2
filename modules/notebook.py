@@ -18,7 +18,8 @@ class NoteBook:
             if note.title == title:
                 self.notes.remove(note)
 
-    def search_by_title(self, title: str) -> Note:
+    def search_by_title(self, title: str) -> str:
         for note in self.notes:
             if title in note.title:
                 return note
+
