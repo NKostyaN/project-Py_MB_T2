@@ -1,10 +1,12 @@
 class Address:
-    def __init__(self, country, city, street, appartment):
-        self.country = country
-        self.city = city
-        self.street = street
-        self.appartment = appartment
+    def __init__(self, address:str):
+        self.address = address
+        
 
     def __str__(self):
-        address_str = f"Country: {self.country}, City: {self.city}, Street: {self.street}, appartment: {self.appartment}"
-        return address_str
+        parts = self.address.split(", ")
+        if len(parts) == 4:
+            country, city, street, apartment = parts
+            return f"Country: {country}, City: {city}, Street: {street}, Apartment: {apartment}"
+        else:
+            return f"Address: {self.address}"
