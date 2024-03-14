@@ -6,11 +6,11 @@ from modules.address import Address
 
 
 class Record:
-    def __init__(self, name: str,address: Address):
+    def __init__(self, name: str):
         self.name = Name(name)
         self.phones = []
-        self.address = address
         self.birthday = None
+        self.address = None
 
     def __str__(self):
         res = f"{self.name}, phones: {'; '.join(p for p in self.phones)}"
@@ -42,6 +42,9 @@ class Record:
 
     def add_birthday(self, birthday) -> str:
         self.birthday = Birthday(birthday)
+
+    def add_address(self, address) -> str:
+        self.address = Address(address)
 
     def to_json(self) -> dict:
         phones = []
