@@ -18,7 +18,8 @@ def parse_input(user_input) -> str:
 def main():
     words = WordCompleter(["hello", "hi", "close", "exit", "quit", "bye", "add", "change", "rename", "remove", "remove-phone", "add-birthday", "show-birthday", "birthdays", "phone", "all", "help"])
     print("\nWelcome to the assistant bot!")
-    book = load_from_json()
+    book = load_from_json()     # to do -- >  book = load_from_json("phonebook.json")
+                                # to do -- >  notes = load_from_json("notebook.json")
     dirty = False
     
     while True:

@@ -54,17 +54,20 @@ def change_contact(args, book: AddressBook) -> str:
 @input_error
 def rename_contact(args, book: AddressBook) -> str:
     name, new_name = args
-    print(name, new_name)
+    new_name = new_name.capitalize()
     rec = book.find(name)
     if rec:
-        new_rec = Record(new_name)
-        for phone in rec.phones:
-            new_rec.add_phone(str(phone))
-        if str(rec.birthday) != "None":
-            new_rec.add_birthday(str(rec.birthday))
-        book.add_record(new_rec)
-        book.delete(name)
-        return f"Contact {highlight(name)} now have new name {highlight(new_rec.name)}"
+        if name != new_name:
+            new_rec = Record(new_name)
+            for phone in rec.phones:
+                new_rec.add_phone(str(phone))
+            if str(rec.birthday) != "None":
+                new_rec.add_birthday(str(rec.birthday))
+            book.add_record(new_rec)
+            book.delete(name)
+            return f"Contact {highlight(name)} now have new name {highlight(new_rec.name)}"
+        else:
+            return f"Contact name {highlight(name)} equal new name {highlight(new_name)}"
     else:
         return f"Contact {highlight(name)} does not exist. Check your spelling."
 
