@@ -1,4 +1,5 @@
 from datetime import datetime, timedelta
+import re
 
 
 def highlight(txt: str) -> str:
@@ -13,25 +14,12 @@ def info(txt: str) -> str:
 def error(txt: str) -> str:
     return f"\033[41m{txt}\x1b[0m"          # red background
 
-def strip_phone_number(phone: str, digits=10) -> str:
-    phone = (
-        phone.strip()
-        .removeprefix("+")
-        .replace("(", "")
-        .replace(")", "")
-        .replace("+", "")
-        .replace("-", "")
-        .replace("=", "")
-        .replace("_", "")
-        .replace("*", "")
-        .replace("/", "")
-        .replace("|", "")
-        .replace(" ", "")
-    )
-    if len(phone) > digits:
-        phone = phone[-digits : len(phone)]
+def check_phone(phone: str) -> str:
+    extract = re.findall(r'\d+', phone)
+    phone = ""
+    for line in extract:
+        phone += line
     return phone
-
 
 def show_help() -> str:
     help = (
@@ -111,6 +99,7 @@ def get_birthdays_per_week(users: list) -> str:
 
     except TypeError:
         print(error("Something wrong in input data, pls check it"))
+
 
 
 if __name__ == "__main__":

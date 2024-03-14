@@ -1,4 +1,4 @@
-from helpers.monty_utils import highlight, warning, get_birthdays_per_week, strip_phone_number
+from helpers.monty_utils import highlight, warning, get_birthdays_per_week, check_phone
 from modules.address_book import AddressBook
 from modules.record import Record
 
@@ -10,7 +10,10 @@ def input_error(func) -> str:
         except Exception as e:
             error_string = f"{warning(f"Error in {func.__name__}:")} {e}\n"
             if str(func.__name__) == "add_contact":
-                error_string += f"Wrong arguments count, pls use {highlight("add [username] [phone]")}."
+                if e == ValueError:
+                    error_string += f"Wrong phone format, pls use {highlight("correct phone format")}."
+                else:
+                    error_string += f"Wrong arguments count, pls use {highlight("add [username] [phone]")}."
             elif str(func.__name__) == "change_contact":
                 error_string += f"Wrong arguments count, pls use {highlight("change [username] [phone]")}."
             elif str(func.__name__) == "show_phone":
@@ -25,7 +28,8 @@ def input_error(func) -> str:
 @input_error
 def add_contact(args, book: AddressBook):
     name, phone = args
-    phone = strip_phone_number(str(phone))
+    name = name.capitalize()
+    phone = check_phone(str(phone))
     rec = book.find(name)
     if rec:
         if rec.find_phone(phone) != None:
@@ -43,6 +47,7 @@ def add_contact(args, book: AddressBook):
 @input_error
 def change_contact(args, book: AddressBook) -> str:
     name, phone_old, phone_new = args
+    name = name.capitalize()
     rec = book.find(name)
     if rec:
         rec.edit_phone(phone_old, phone_new)
@@ -54,6 +59,7 @@ def change_contact(args, book: AddressBook) -> str:
 @input_error
 def rename_contact(args, book: AddressBook) -> str:
     name, new_name = args
+    name = name.capitalize()
     new_name = new_name.capitalize()
     rec = book.find(name)
     if rec:
@@ -75,6 +81,7 @@ def rename_contact(args, book: AddressBook) -> str:
 @input_error
 def remove_contact(args, book: AddressBook) -> str:
     name = args[0]
+    name = name.capitalize()
     rec = book.find(name)
     if rec:
         book.delete(name)
@@ -86,6 +93,7 @@ def remove_contact(args, book: AddressBook) -> str:
 @input_error
 def show_phone(args, book: AddressBook) -> str:
     name = args[0]
+    name = name.capitalize()
     rec = book.find(name)
     if rec:
         return f"{highlight(f"{name}'s")} phones is: {highlight(rec.phones_list())}"
@@ -95,6 +103,7 @@ def show_phone(args, book: AddressBook) -> str:
 @input_error
 def remove_phone(args, book: AddressBook) -> str:
     name, phone = args
+    name = name.capitalize()
     rec = book.find(name)
     if rec:
         if rec.find_phone(phone) != None:
@@ -109,6 +118,7 @@ def remove_phone(args, book: AddressBook) -> str:
 @input_error
 def add_birthday(args, book: AddressBook) -> str:
     name, bday = args
+    name = name.capitalize()
     rec = book.find(name)
     if rec:
         rec.add_birthday(bday)
@@ -123,6 +133,7 @@ def add_birthday(args, book: AddressBook) -> str:
 @input_error
 def show_birthday(args, book: AddressBook) -> str:
     name = args[0]
+    name = name.capitalize()
     rec = book.find(name)
     if rec:
         return f"{highlight(f"{name}'s")} birthday is: {highlight(str(book.get(name).birthday))}"

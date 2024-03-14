@@ -1,9 +1,9 @@
-from helpers.monty_utils import strip_phone_number
+from helpers.monty_utils import check_phone
 
 
 class Phone():
     def __init__(self, phone: str):
-        phone = strip_phone_number(phone)
+        phone = check_phone(phone)
         self.phone = phone
 
     def set_phone(self, phone: str):
