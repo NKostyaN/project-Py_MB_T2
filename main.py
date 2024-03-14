@@ -11,8 +11,8 @@ def parse_input(user_input) -> str:
 
 def main():
     print("\nWelcome to the assistant bot!")
-    book = load_from_json()
-    notes = load_from_json()
+    book = load_from_json() # connect with Serg
+    notes = load_from_json() # connect with Serg
     dirty = False
     
     while True:

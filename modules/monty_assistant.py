@@ -175,7 +175,9 @@ def delete_note(args, notes: NoteBook) -> str:
 
 def find_note(args, notes: NoteBook) -> str:
     title = args[0]
-    if notes.find_by_title(title):
-        return f"Note with title {highlight(title)} found."
+    res = notes.search_by_title(title)
+    if res:
+        return str(res.text)
+        # return f"Note with title {highlight(title)} found."
     else:
         return f"Note with title {highlight(title)} not found."
