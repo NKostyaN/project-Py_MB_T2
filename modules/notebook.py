@@ -1,4 +1,4 @@
-from note import Note
+from modules.note import Note
 
 
 class NoteBook:
@@ -18,8 +18,9 @@ class NoteBook:
             if note.title == title:
                 self.notes.remove(note)
 
-    def search_by_title(self, title: str) -> str:
+    def search_by_title(self, title: str) -> Note:
         for note in self.notes:
             if title in note.title:
                 return note
+        return None
 

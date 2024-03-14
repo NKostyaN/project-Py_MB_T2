@@ -4,7 +4,6 @@ from modules.record import Record
 from modules.notebook import NoteBook
 
 
-
 def input_error(func) -> str:
     def inner(*args, **kwargs):
         try:
@@ -150,10 +149,11 @@ def show_all(book: AddressBook) -> str:
         return phonebook
     
 def add_note(args, notes: NoteBook) -> str:
-    title, text = args
-    if notes.search_by_title(title):
-        return f"Title {highlight(title)} already exists."
+    if len(args) < 2:
+        print("Wrong arguments count, use [add-note] [title] [text].")
     else:
+        title = args[0]
+        text = ' '.join(args[1:])  
         notes.add_note(title.capitalize(), text)
         return f"Note {title} has been added."
 
