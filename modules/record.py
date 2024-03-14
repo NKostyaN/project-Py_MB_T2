@@ -2,12 +2,14 @@ from modules.name import Name
 from modules.phone import Phone
 from modules.email import Email
 from modules.birthday import Birthday
+from modules.address import Address
 
 
 class Record:
-    def __init__(self, name: str):
+    def __init__(self, name: str,address: Address):
         self.name = Name(name)
         self.phones = []
+        self.address = address
         self.birthday = None
 
     def __str__(self):
@@ -47,6 +49,7 @@ class Record:
             phones.append(str(item))
         return {
             "name": str(self.name),
+            "address": str(self.address),
             "phones": phones,
             "birthday": str(self.birthday),
         }

@@ -19,4 +19,11 @@ class AddressBook(UserDict):
         res = {}
         for key in self.data.keys():
             res.update({key: self.data.get(key).to_json()})
-        return res
+        return res 
+    
+    # def to_json(self) -> dict:
+    #     res = {}
+    #     for key in self.data.keys():
+    #         record = self.data.get(key)
+    #         res.update({key: {"address": record.address.to_json()}})
+    #     return res
