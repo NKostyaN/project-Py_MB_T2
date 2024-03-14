@@ -128,6 +128,22 @@ def add_birthday(args, book: AddressBook) -> str:
             return ""
     else:
         return f"Contact {highlight(name)} does not exist. Check your spelling."
+    
+@input_error
+def change_birthday(args, book: AddressBook) -> str:
+    name, bday = args
+    name = name.capitalize()
+    rec = book.find(name)
+    if rec:
+        rec.add_birthday(bday)
+        if str(rec.birthday) != "None":
+            return f"Birthday changed, contact {highlight(name)} updated."
+        else:
+            return ""
+    else:
+        return f"Contact {highlight(name)} does not exist. Check your spelling."
+
+change_birthday
 
 
 @input_error

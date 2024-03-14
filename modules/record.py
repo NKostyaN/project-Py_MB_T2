@@ -8,7 +8,7 @@ class Record:
     def __init__(self, name: str):
         self.name = Name(name)
         self.phones = []
-        self.birthday = None
+        self.birthday = "None"
 
     def __str__(self):
         res = f"{self.name}, phones: {'; '.join(p for p in self.phones)}"
