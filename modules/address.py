@@ -4,6 +4,8 @@ class Address:
         
 
     def to_json(self) -> str:
+        if self.address == None or self.address == "":
+            return "None"
         return self.address
 
     def __str__(self):
