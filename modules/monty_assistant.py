@@ -88,12 +88,12 @@ def remove_contact(args, book: AddressBook) -> str:
 
 
 @input_error
-def show_phone(args, book: AddressBook) -> str:
+def find_contact(args, book: AddressBook) -> str:
     name = args[0]
     name = name.capitalize()
     rec = book.find(name)
     if rec:
-        return f"{highlight(f"{name}'s")} phones is: {highlight(rec.phones_list())}"
+        return rec
     else:
         return f"Contact {highlight(name)} does not exist. Check your spelling."
     
