@@ -1,2 +1,2 @@
-class Email():
+class Email:
     pass

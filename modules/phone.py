@@ -1,7 +1,7 @@
 from helpers.monty_utils import check_phone
 
 
-class Phone():
+class Phone:
     def __init__(self, phone: str):
         phone = check_phone(phone)
         self.phone = phone

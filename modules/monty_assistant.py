@@ -112,7 +112,35 @@ def find_phone(args, book: AddressBook) -> str:
             res += f"{str(item)}\n"
         return res
     else:
-        return f"Phone {phone} not finded"
+        return f"Phone {phone} not found"
+
+
+@input_error
+def find_email(args, book: AddressBook) -> str:
+    email = args[0]
+    # email = check_email(email)          # need to add check email from Serg
+    finded = []
+    for key, rec in book.items():
+        if email == rec.email:
+            finded.append(rec)
+    if finded:
+        res = ""
+        for item in finded:
+            res += f"{str(item)}\n"
+        return res
+    else:
+        return f"Email {email} not found"
+    
+
+@input_error
+def find_note(args, book: AddressBook) -> str:
+    title = args[0]
+    # email = check_email(email)            # need to add check email from Serg
+    for key, rec in book.items():           # neet to change to notes.items() from Slava
+        if title == rec.title:
+            return rec                      # note.__str__()
+        else:
+            return f"Note {title} not found"
     
     
 @input_error
