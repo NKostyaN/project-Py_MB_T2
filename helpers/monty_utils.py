@@ -72,16 +72,13 @@ def validate_email(email_str: str) -> str:
     pattern = r'^[\w\.-]+@[\w\.-]+\.\w+$'
     if re.match(pattern, email_str):
         return email_str
-    else:
-        raise ValueError()
 
 def check_email(email_str: str) -> str:
     try:
         validated_email = validate_email(email_str)
         return validated_email 
     except Exception as e:
-        print(f"{warning(f"Error in {check_email.__name__}:")} {e}")
-        print(f"Use {highlight("e-mail")} format please\n")   
+        return None  
     
 
 def get_birthdays_per_week(users: list) -> str:

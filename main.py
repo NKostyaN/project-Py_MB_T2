@@ -11,7 +11,8 @@ def parse_input(user_input) -> str:
 
 def main():
     print("\nWelcome to the assistant bot!")
-    book = load_from_json()
+    book = load_from_json("phonebook.json")
+    note = load_from_json("notes.json")
     dirty = False
     
     while True:
@@ -20,7 +21,8 @@ def main():
 
         if command in ["close", "exit", "quit", "bye"]:
             if dirty:
-                save_to_json(book.to_json())
+                save_to_json(book.to_json(), "phonebook.json")
+                save_to_json(note.to_json(), "notes.json")
             print("Good bye!")
             break
 
