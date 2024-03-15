@@ -52,12 +52,14 @@ def save_to_json_notes(data, filename):
 
 
 class Log:
-    def empty(filename):
-        return print(f"{info("[INFO]: {filename} file found, but it's empty for now.")}")
-
-    def not_found(filename):
-        return print(f"{
-            info(
-                "[INFO]: {filename} file not found, but don't worry, I'll create a new one for you."
-            )}"
-        )
+    @classmethod
+    def empty(cls, filename):
+        file_name = str(filename)
+        str_info = "[INFO]: " + file_name + " file found, but it's empty for now."
+        return print(f"{info(str_info)}")
+    
+    @classmethod
+    def not_found(cls, filename):
+        file_name = str(filename)
+        str_info = "[INFO]: " + file_name + " file not found, but don't worry, I'll create a new one for you."
+        return print(f"{info(str_info)}")
