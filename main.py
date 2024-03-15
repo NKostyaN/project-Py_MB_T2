@@ -63,6 +63,10 @@ def main():
         elif command == "add-birthday":
             print(bot.add_birthday(args, book))
 
+        elif command == "add-address":
+            dirty = True
+            print(bot.add_address(args, book))
+            
         elif command == "change-birthday":
             dirty = True
             print(bot.change_birthday(args, book))
@@ -108,6 +112,9 @@ def main():
 
         elif command in ["help", "?"]:
             print(show_help())
+        
+        elif command == "find-address":
+          print(bot.find_address(args, book))
 
         elif command == "add-email":
             dirty = True
