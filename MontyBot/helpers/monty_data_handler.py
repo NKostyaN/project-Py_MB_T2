@@ -19,12 +19,12 @@ except ImportError:
 
 
 
-def load_from_json(filename) -> AddressBook:
-    if filename == "phonebook.json":
+def load_from_json(filename, key="phonebook") -> AddressBook:
+    if key == "phonebook":
         phonebook = AddressBook()
         try:
-            # with open(Path.home() / "MontyBot_phonebook.json", "r", encoding="utf-8 ") as f:          # use user path
-            with open(filename, "r", encoding="utf-8 ") as f:
+            with open(Path.home() / filename, "r", encoding="utf-8 ") as f:          # use user path
+            # with open(filename, "r", encoding="utf-8 ") as f:                      # use local path
                 data = json.load(f)
                 if data != "":
                     for key in data.keys():
@@ -44,7 +44,8 @@ def load_from_json(filename) -> AddressBook:
     else:
         notes = NoteBook()  
         try:
-            with open(filename, "r", encoding="utf-8 ") as f:
+            with open(Path.home() / filename, "r", encoding="utf-8 ") as f:          # use user path
+            # with open(filename, "r", encoding="utf-8 ") as f:                      # use local path
                 data = json.load(f)
                 if data != "":
                    for key, value in data.items():
@@ -57,8 +58,8 @@ def load_from_json(filename) -> AddressBook:
 
 
 def save_to_json(data: dict, filename):
-    # with open(Path.home() / "MontyBot_phonebook.json", "w", encoding="utf-8") as f:               # use user path
-    with open(filename, "w", encoding="utf-8") as f:
+    with open(Path.home() / filename, "w", encoding="utf-8") as f:                # use user path
+    # with open(filename, "w", encoding="utf-8") as f:                                # use local path
         json.dump(data, f, ensure_ascii=False, indent=4)
 
 

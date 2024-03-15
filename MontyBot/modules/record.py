@@ -26,7 +26,6 @@ except ImportError:
 
 
 
-
 class Record:
     def __init__(self, name: str):
         self.name = Name(name)
@@ -88,7 +87,7 @@ class Record:
             "phones": phones,
             "birthday": str(self.birthday),
             "email": str(self.email),
-            "address": str(self.address.to_json()),
+            "address": str(self.address),
         }
     
 

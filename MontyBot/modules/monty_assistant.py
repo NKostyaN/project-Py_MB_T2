@@ -1,7 +1,7 @@
 try:
-    from MontyBot.helpers.monty_utils import highlight, warning, get_birthdays_per_week, check_phone
+    from MontyBot.helpers.monty_utils import highlight, warning, get_birthdays_per_week, check_phone, check_email
 except ImportError:
-    from helpers.monty_utils import highlight, warning, get_birthdays_per_week, check_phone
+    from helpers.monty_utils import highlight, warning, get_birthdays_per_week, check_phone, check_email
 try:
     from .address_book import AddressBook
 except ImportError:
@@ -59,7 +59,7 @@ def add_contact(args, book: AddressBook):
 
 
 @input_error
-def change_contact(args, book: AddressBook) -> str:
+def edit_contact(args, book: AddressBook) -> str:
     name, phone_old, phone_new = args
     name = name.capitalize()
     rec = book.find(name)
@@ -136,7 +136,7 @@ def find_phone(args, book: AddressBook) -> str:
 @input_error
 def find_email(args, book: AddressBook) -> str:
     email = args[0]
-    # email = check_email(email)          # need to add check email from Serg
+    email = check_email(email)
     finded = []
     for key, rec in book.items():
         if email == rec.email:
@@ -196,10 +196,6 @@ def add_address(args, book: AddressBook) -> str:
     address = " ".join(args[1:]) 
     if not address:
         return "Please provide a valid address."
-    # name = args[0]
-    # address = ""
-    # for i in args[1: ]:
-    #     address += " " + i
     rec = book.find(name)
     if rec:
         rec.add_address(address)
@@ -207,7 +203,7 @@ def add_address(args, book: AddressBook) -> str:
     
     
 @input_error
-def change_birthday(args, book: AddressBook) -> str:
+def edit_birthday(args, book: AddressBook) -> str:
     name, bday = args
     name = name.capitalize()
     rec = book.find(name)
@@ -236,7 +232,7 @@ def add_email(args, book: AddressBook) -> str:
 
 
 @input_error
-def change_email(args, book: AddressBook) -> str:
+def edit_email(args, book: AddressBook) -> str:
     name, email_new = args
     rec = book.find(name)
     if rec:
@@ -276,20 +272,22 @@ def birthdays(args, book: AddressBook) -> str:
         if str(book.get(name).birthday) != "None":
             phonebook.append({name : str(book.get(name).birthday)})
     return get_birthdays_per_week(phonebook, days)
-    
 
-def show_all(book: AddressBook) -> str:
+
+@input_error
+def show_all_contacts(book: AddressBook) -> str:
     phonebook = ""
     for name in book.keys():
         rec = book.get(name)
         bday = f"; birthday: {highlight(rec.birthday)}" if str(rec.birthday) != "None" else ""
         user_email = f"; email: {highlight(rec.email)}" if str(rec.email) != "None" else ""
-        adr = f"; {highlight(rec.address)}" if str(rec.address) != "None" else ""
+        adr = f"; {rec.address}" if str(rec.address) != "None" else ""
         phonebook += f"{highlight(name)}, phones: {highlight(rec.phones_list())}{bday}{user_email}{adr}\n"
     if phonebook == "":
         return "Phonebook is empty."
     else:
         return phonebook
+
 
 @input_error
 def find_address(args, book: AddressBook) -> str:
@@ -303,17 +301,19 @@ def find_address(args, book: AddressBook) -> str:
     else:
         return f"Contact {highlight(name)} does not exist."
 
+@input_error
 def add_note(args, notes: NoteBook) -> str:
     title = args[0]
     text = " ".join(args[1:])
     if notes.find_by_title(title):
-        return f"Note {title} already exist."
+        return f"Note {highlight(title)} already exist."
     else:
         notes.add_note(title, text)
-        return f"Note {title} has been added."
+        return f"Note {highlight(title)} has been added."
 
 
-def change_note(args, notes: NoteBook) -> str:
+@input_error
+def edit_note(args, notes: NoteBook) -> str:
     title = args[0]
     new_text = " ".join(args[1:])
     if notes.find_by_title(title):
@@ -323,7 +323,7 @@ def change_note(args, notes: NoteBook) -> str:
         return f"Note with title {highlight(title)} not found."
 
 
-def delete_note(args, notes: NoteBook) -> str:
+def remove_note(args, notes: NoteBook) -> str:
     title = args[0]
     if notes.find_by_title(title):
         notes.remove_note(title)
@@ -332,6 +332,7 @@ def delete_note(args, notes: NoteBook) -> str:
         return f"Note with title {highlight(title)} not found."
 
 
+@input_error
 def find_note(args, notes: NoteBook) -> str:
     title = args[0]
     res = notes.find_by_title(title)
@@ -341,6 +342,7 @@ def find_note(args, notes: NoteBook) -> str:
         return f"Note with title {highlight(title)} not found."
 
 
+@input_error
 def show_all_notes(notes: NoteBook) -> str:
     for note in notes.notes:
-        print(f"Title: {highlight(note.title)}\nText: {note.text}\n")
+        return f"Title: {highlight(note.title)}\nText: {note.text}\n"
