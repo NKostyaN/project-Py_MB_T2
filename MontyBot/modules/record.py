@@ -1,10 +1,28 @@
-from modules.name import Name
-from modules.phone import Phone
-from modules.email import Email
-from modules.birthday import Birthday
-from modules.address import Address
-from helpers.monty_utils import highlight
 
+try:
+    from .name import Name
+except ImportError:
+    from name import Name
+try:
+    from .phone import Phone
+except ImportError:
+    from phone import Phone
+try:
+    from .email import Email
+except ImportError:
+    from email import Email
+try:
+    from .birthday import Birthday
+except ImportError:
+    from birthday import Birthday
+try:
+    from .address import Address
+except ImportError:
+    from address import Address
+try:
+    from MontyBot.helpers.monty_utils import highlight
+except ImportError:
+    from helpers.monty_utils import highlight
 
 
 
@@ -14,7 +32,7 @@ class Record:
         self.phones = []
         self.birthday = "None"
         self.email = None
-        self.address = None
+        self.address = "None"
 
     def __str__(self):
         res = f"{highlight(self.name)}, phones: {highlight('; '.join(str(p) for p in self.phones))}"
@@ -69,7 +87,7 @@ class Record:
             "phones": phones,
             "birthday": str(self.birthday),
             "email": str(self.email),
-            "address": str(self.address.to_json()),
+            "address": str(self.address),
         }
     
 

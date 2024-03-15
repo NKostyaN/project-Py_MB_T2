@@ -1,5 +1,7 @@
-from helpers.monty_utils import check_phone
-
+try:
+    from MontyBot.helpers.monty_utils import check_phone
+except ImportError:
+    from helpers.monty_utils import check_phone
 
 class Phone:
     def __init__(self, phone: str):

@@ -1,15 +1,30 @@
+from pathlib import Path
 import json
-from helpers.monty_utils import info
-from modules.address_book import AddressBook
-from modules.record import Record
-from modules.notebook import NoteBook
+try:
+    from .monty_utils import info
+except ImportError:
+    from monty_utils import info
+try:    
+    from MontyBot.modules.address_book import AddressBook
+except ImportError:
+    from modules.address_book import AddressBook
+try:
+    from MontyBot.modules.record import Record
+except ImportError:
+    from modules.record import Record
+try:
+    from MontyBot.modules.notebook import NoteBook
+except ImportError:
+    from modules.notebook import NoteBook
 
 
-def load_from_json(filename) -> AddressBook:
-    if filename == "phonebook.json":
+
+def load_from_json(filename, key="phonebook") -> AddressBook:
+    if key == "phonebook":
         phonebook = AddressBook()
         try:
-            with open(filename, "r", encoding="utf-8 ") as f:
+            with open(Path.home() / filename, "r", encoding="utf-8 ") as f:          # use user path
+            # with open(filename, "r", encoding="utf-8 ") as f:                      # use local path
                 data = json.load(f)
                 if data != "":
                     for key in data.keys():
@@ -20,6 +35,8 @@ def load_from_json(filename) -> AddressBook:
                             rec.add_birthday(data.get(key).get("birthday"))
                         if str(data.get(key).get("email")) != "None":
                             rec.add_email(data.get(key).get("email"))
+                        if str(data.get(key).get("address")) != "None":
+                            rec.add_address(data.get(key).get("address"))
                         phonebook.add_record(rec)
                 else:
                     Log.empty(filename)
@@ -29,7 +46,8 @@ def load_from_json(filename) -> AddressBook:
     else:
         notes = NoteBook()  
         try:
-            with open(filename, "r", encoding="utf-8 ") as f:
+            with open(Path.home() / filename, "r", encoding="utf-8 ") as f:          # use user path
+            # with open(filename, "r", encoding="utf-8 ") as f:                      # use local path
                 data = json.load(f)
                 if data != "":
                    for key, value in data.items():
@@ -42,7 +60,8 @@ def load_from_json(filename) -> AddressBook:
 
 
 def save_to_json(data: dict, filename):
-    with open(filename, "w", encoding="utf-8") as f:
+    with open(Path.home() / filename, "w", encoding="utf-8") as f:                # use user path
+    # with open(filename, "w", encoding="utf-8") as f:                                # use local path
         json.dump(data, f, ensure_ascii=False, indent=4)
 
 
