@@ -50,12 +50,13 @@ def main():
             print(bot.remove_phone(args, book))
 
         elif command == "add-birthday":
-            dirty = True
             print(bot.add_birthday(args, book))
 
         elif command == "show-birthday":
+            dirty = True
             print(bot.show_birthday(args, book))
 
+            dirty = True
         elif command == "birthdays":
             bot.birthdays(book)
 
@@ -64,6 +65,22 @@ def main():
 
         elif command == "all":
             print(bot.show_all(book))
+
+        elif command == "add-note":
+            dirty = True
+            print(bot.add_note(args, notes))
+
+        elif command == "find-note":
+            dirty = True
+            print(bot.find_note(args, notes))
+
+        elif command == "edit-note":
+            dirty = True
+            print(bot.change_note(args, notes))
+
+        elif command == "delete-note":
+            dirty = True
+            print(bot.delete_note(args, notes))
 
         elif command in ["help", "?"]:
             print(show_help())
