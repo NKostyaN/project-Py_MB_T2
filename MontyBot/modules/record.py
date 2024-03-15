@@ -32,7 +32,7 @@ class Record:
         self.phones = []
         self.birthday = "None"
         self.email = None
-        self.address = None
+        self.address = "None"
 
     def __str__(self):
         res = f"{highlight(self.name)}, phones: {highlight('; '.join(str(p) for p in self.phones))}"

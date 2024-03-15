@@ -19,7 +19,7 @@ class Address:
         parts = re.split(r',\s*|\s+', self.address)
         if len(parts) == 4:
             country, city, street, apartment = parts
-            return f"address: Country: {highlight(country)}, City: {highlight(city)}, Street: {highlight(street)}, Apartment: {highlight(apartment)}"
+            return f"Country: {highlight(country)}, City: {highlight(city)}, Street: {highlight(street)}, Apartment: {highlight(apartment)}"
         else:
-            return f"address: {highlight(self.address)}"
+            return f"{highlight(self.address)}"
             

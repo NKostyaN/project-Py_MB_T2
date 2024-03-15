@@ -281,7 +281,7 @@ def show_all_contacts(book: AddressBook) -> str:
         rec = book.get(name)
         bday = f"; birthday: {highlight(rec.birthday)}" if str(rec.birthday) != "None" else ""
         user_email = f"; email: {highlight(rec.email)}" if str(rec.email) != "None" else ""
-        adr = f"; {rec.address}" if str(rec.address) != "None" else ""
+        adr = f"; address: {rec.address}" if str(rec.address) != "None" else ""
         phonebook += f"{highlight(name)}, phones: {highlight(rec.phones_list())}{bday}{user_email}{adr}\n"
     if phonebook == "":
         return "Phonebook is empty."

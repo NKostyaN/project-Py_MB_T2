@@ -35,6 +35,8 @@ def load_from_json(filename, key="phonebook") -> AddressBook:
                             rec.add_birthday(data.get(key).get("birthday"))
                         if str(data.get(key).get("email")) != "None":
                             rec.add_email(data.get(key).get("email"))
+                        if str(data.get(key).get("address")) != "None":
+                            rec.add_address(data.get(key).get("address"))
                         phonebook.add_record(rec)
                 else:
                     Log.empty(filename)
