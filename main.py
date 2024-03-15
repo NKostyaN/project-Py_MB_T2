@@ -1,6 +1,7 @@
 from helpers.monty_utils import highlight, show_help
 from helpers.monty_data_handler import load_from_json, save_to_json
 import modules.monty_assistant as bot
+from modules.notebook import load_note_from_json
 
 
 def parse_input(user_input) -> str:
@@ -12,7 +13,7 @@ def parse_input(user_input) -> str:
 def main():
     print("\nWelcome to the assistant bot!")
     book = load_from_json() # connect with Serg
-    notes = load_from_json() # connect with Serg
+    notes = 
     dirty = False
     
     while True:

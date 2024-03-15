@@ -152,8 +152,8 @@ def add_note(args, notes: NoteBook) -> str:
     title = args[0]
     text = ""
     for i in args[1: ]:
-        text += " " + i
-    rec = notes.search_by_title(title)
+        text += i
+    rec = notes.find_by_title(title)
     if rec:
         return f"Note {title} already exist."
     else:
@@ -178,8 +178,8 @@ def delete_note(args, notes: NoteBook) -> str:
 
 def find_note(args, notes: NoteBook) -> str:
     title = args[0]
-    res = notes.search_by_title(title)
+    res = notes.find_by_title(title)
     if res:
-        return str(res.text)
+        return f"{title}: {res.text}"
     else:
         return f"Note with title {highlight(title)} not found."

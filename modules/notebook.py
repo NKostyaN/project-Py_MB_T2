@@ -1,4 +1,5 @@
 from modules.note import Note
+import json
 
 
 class NoteBook:
@@ -9,18 +10,24 @@ class NoteBook:
         self.notes.append(Note(title, text))
 
     def edit_note(self, title: str, new_text: str):
-        for i in self.notes:
-            if i.title == title:
-                i.text = new_text
+        for note in self.notes:
+            if note.title == title:
+                note.text = new_text
 
     def remove_note(self, title: str):
-        for i in self.notes:
-            if i.title == title:
-                self.notes.remove(i)
+        for note in self.notes:
+            if note.title == title:
+                self.notes.remove(note)
 
-    def search_by_title(self, title: str) -> str:
-        for i in self.notes:
-            if title in i.title:
-                return i
-        return None
+    def find_by_title(self, title: str) -> Note:
+        for note in self.notes:
+            if title in note.title:
+                return note
+    @classmethod       
+    def save_notes_to_json(self, filename: str):
+        with open(filename, "w") as f:
+            json.dump(self.notes, f)
 
+    def load_notes_from_json(self, filename: str):
+        with open(filename, "r") as f:
+            self.notes = json.load(f)    
