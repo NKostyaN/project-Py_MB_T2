@@ -1,5 +1,5 @@
 class Note():
-    def __init__(self, title, text):
+    def __init__(self, title = "None", text = "None"):
         self.title = title
         self.text = text
 
