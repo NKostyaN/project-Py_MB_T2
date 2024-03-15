@@ -46,6 +46,8 @@ def show_help() -> str:
         f"{highlight("close")}, {highlight("exit")}, {highlight("quit")}, {highlight("bye")} - close application\n"
         f"{highlight("hello")}, {highlight("hi")} - just a greeting\n"
         f"{highlight("help")}, {highlight("?")} - this help"
+        f"{highlight("add-address [username]")} - adding address\n"
+        
     )
     return help
 
