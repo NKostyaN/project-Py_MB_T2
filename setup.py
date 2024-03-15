@@ -10,6 +10,4 @@ setup(
     packages=find_namespace_packages(),
     install_requires=["prompt_toolkit"],
     entry_points={"console_scripts": ["montybot = MontyBot.main:main"]}
-    # include_package_data=True,
-    # package_data={"": ["*.json"]}
 )
