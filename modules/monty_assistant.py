@@ -1,6 +1,7 @@
 from helpers.monty_utils import highlight, warning, get_birthdays_per_week, check_phone
 from modules.address_book import AddressBook
 from modules.record import Record
+from modules.notebook import NoteBook
 
 
 def input_error(func) -> str:
@@ -10,12 +11,15 @@ def input_error(func) -> str:
         except Exception as e:
             error_string = f"{warning(f"Error in {func.__name__}:")} {e}\n"
             if str(func.__name__) == "add_contact":
-                error_string += f"Wrong arguments count, pls use {highlight("add [username] [phone]")}."
+                error_string += f"Wrong arguments count, pls use {
+                    highlight("add [username] [phone]")}."
             elif str(func.__name__) == "change_contact":
-                error_string += f"Wrong arguments count, pls use {highlight("change [username] [phone]")}."
+                error_string += f"Wrong arguments count, pls use {
+                    highlight("change [username] [phone]")}."
             elif str(func.__name__) == "show_phone":
                 error_string += (
-                    f"Wrong arguments count, pls use {highlight("phone [username]")}."
+                    f"Wrong arguments count, pls use {
+                        highlight("phone [username]")}."
                 )
             return error_string
 
@@ -51,7 +55,7 @@ def change_contact(args, book: AddressBook) -> str:
         return "Contact updated."
     else:
         return f"Contact {highlight(name)} does not exist. Check your spelling."
-    
+
 
 @input_error
 def rename_contact(args, book: AddressBook) -> str:
@@ -96,7 +100,8 @@ def find_contact(args, book: AddressBook) -> str:
         return rec
     else:
         return f"Contact {highlight(name)} does not exist. Check your spelling."
-    
+
+
 @input_error
 def find_phone(args, book: AddressBook) -> str:
     phone = args[0]
@@ -188,12 +193,47 @@ def change_birthday(args, book: AddressBook) -> str:
 
 
 @input_error
+def add_email(args, book: AddressBook) -> str:
+    name, email = args
+    rec = book.find(name)
+    if rec:
+        rec.add_email(email)
+        if str(rec.email) != "None":
+            return f"Email added, contact {highlight(name)} updated."
+        else:
+            return ""
+    else:
+        return f"Contact {highlight(name)} does not exist. Check your spelling."
+
+
+@input_error
+def change_email(args, book: AddressBook) -> str:
+    name, email_new = args
+    rec = book.find(name)
+    if rec:
+        rec.edit_email(email_new)
+        return f"Email changed, contact {highlight(name)} updated."
+    else:
+        return f"Contact {highlight(name)} does not exist. Check your spelling."
+
+
+@input_error
 def show_birthday(args, book: AddressBook) -> str:
     name = args[0]
     name = name.capitalize()
     rec = book.find(name)
     if rec:
         return f"{highlight(f"{name}'s")} birthday is: {highlight(str(book.get(name).birthday))}"
+    else:
+        return f"Contact {highlight(name)} does not exist. Check your spelling."
+
+
+@input_error
+def show_email(args, book: AddressBook) -> str:
+    name = args[0]
+    rec = book.find(name)
+    if rec:
+        return f"{highlight(f"{name}'s")} email is: {highlight(str(book.get(name).email))}"
     else:
         return f"Contact {highlight(name)} does not exist. Check your spelling."
 
@@ -213,9 +253,56 @@ def show_all(book: AddressBook) -> str:
     phonebook = ""
     for name in book.keys():
         rec = book.get(name)
-        bday = f"; birthday: {highlight(rec.birthday)}" if str(rec.birthday) != "None" else ""
-        phonebook += f"{highlight(name)}, phones: {highlight(rec.phones_list())}{bday}\n"
+        bday = f"; birthday: {highlight(rec.birthday)}" if str(
+            rec.birthday) != "None" else ""
+        user_email = f"; email: {highlight(rec.email)}" if str(
+            rec.email) != "None" else ""
+        phonebook += f"{highlight(name)}, phones: {highlight(rec.phones_list())}{
+            bday}{user_email}\n"
     if phonebook == "":
         return "Phonebook is empty."
     else:
         return phonebook
+
+
+def add_note(args, notes: NoteBook) -> str:
+    title = args[0]
+    text = " ".join(args[1:])
+    if notes.find_by_title(title):
+        return f"Note {title} already exist."
+    else:
+        notes.add_note(title, text)
+        return f"Note {title} has been added."
+
+
+def change_note(args, notes: NoteBook) -> str:
+    title = args[0]
+    new_text = " ".join(args[1:])
+    if notes.find_by_title(title):
+        notes.edit_note(title, new_text)
+        return f"Note {highlight(title)} has been edited."
+    else:
+        return f"Note with title {highlight(title)} not found."
+
+
+def delete_note(args, notes: NoteBook) -> str:
+    title = args[0]
+    if notes.find_by_title(title):
+        notes.remove_note(title)
+        return f"Note {highlight(title)} has been deleted."
+    else:
+        return f"Note with title {highlight(title)} not found."
+
+
+def find_note(args, notes: NoteBook) -> str:
+    title = args[0]
+    res = notes.find_by_title(title)
+    if res:
+        return str(res.text)
+    else:
+        return f"Note with title {highlight(title)} not found."
+
+
+def show_all_notes(notes: NoteBook) -> str:
+    for note in notes.notes:
+        print(f"Title: {highlight(note.title)}\nText: {note.text}\n")
