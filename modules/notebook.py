@@ -1,6 +1,5 @@
 from modules.note import Note
 
-
 class NoteBook:
     def __init__(self):
         self.notes = []
@@ -18,12 +17,11 @@ class NoteBook:
             if i.title == title:
                 self.notes.remove(i)
 
-    def search_by_title(self, title: str) -> str:
-        for i in self.notes:
-            if title in i.title:
-                return i
-        return None
-    
+    def find_by_title(self, title: str) -> Note:
+        for note in self.notes:
+            if title in note.title:
+                return note
+            
     def to_json(self) -> dict:
         res = {}
         for item in self.notes:
