@@ -186,23 +186,23 @@ def show_all(book: AddressBook) -> str:
     
 def add_note(args, notes: NoteBook) -> str:
     title = args[0]
-    text = ""
-    for i in args[1: ]:
-        text += " " + i
-    rec = notes.search_by_title(title)
-    if rec:
+    text = " ".join(args[1:])
+    if notes.find_by_title(title):
         return f"Note {title} already exist."
     else:
-        notes.add_note(title.capitalize(), text)
+        notes.add_note(title, text)
         return f"Note {title} has been added."
 
+
 def change_note(args, notes: NoteBook) -> str:
-    title, new_text = args
+    title = args[0]
+    new_text = " ".join(args[1:])
     if notes.find_by_title(title):
         notes.edit_note(title, new_text)
         return f"Note {highlight(title)} has been edited."
     else:
         return f"Note with title {highlight(title)} not found."
+
 
 def delete_note(args, notes: NoteBook) -> str:
     title = args[0]
@@ -212,10 +212,16 @@ def delete_note(args, notes: NoteBook) -> str:
     else:
         return f"Note with title {highlight(title)} not found."
 
+
 def find_note(args, notes: NoteBook) -> str:
     title = args[0]
     res = notes.find_by_title(title)
     if res:
-        return f"{title}: {res.text}"
+        return str(res.text)
     else:
         return f"Note with title {highlight(title)} not found."
+
+
+def show_all_notes(notes: NoteBook) -> str:
+    for note in notes.notes:
+        print(f"Title: {highlight(note.title)}\nText: {note.text}\n")
