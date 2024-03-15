@@ -1,3 +1,5 @@
+import re
+   
 class Address:
     def __init__(self, address:str):
         self.address = address
@@ -8,10 +10,13 @@ class Address:
             return "None"
         return self.address
 
+
     def __str__(self):
-        parts = self.address.split(", ")
+        # parts = self.address.split(", ")
+        parts = re.split(r',\s*|\s+', self.address)
         if len(parts) == 4:
             country, city, street, apartment = parts
-            return f"Address: Country: {country}, City: {city}, Street: {street}, Apartment: {apartment}"
+            return f"ADDRESS-> Country:{country}, City:{city}, Street:{street}, Apartment:{apartment}"
         else:
             return f"Address: {self.address}"
+            

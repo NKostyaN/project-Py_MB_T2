@@ -12,7 +12,7 @@ def parse_input(user_input) -> str:
 def main():
     print("\nWelcome to the assistant bot!")
     book = load_from_json()
-    dirty = False
+    dirty = True
     
     while True:
         user_input = input("\nEnter a command: ")
@@ -69,6 +69,9 @@ def main():
 
         elif command in ["help", "?"]:
             print(show_help())
+        
+        elif command == "find-address":
+          print(bot.find_address(args, book))
 
         else:
             print(

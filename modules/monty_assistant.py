@@ -120,9 +120,13 @@ def add_birthday(args, book: AddressBook) -> str:
 @input_error
 def add_address(args, book: AddressBook) -> str:
     name = args[0]
-    address = ""
-    for i in args[1: ]:
-        address += " " + i
+    address = " ".join(args[1:]) 
+    if not address:
+        return "Please provide a valid address."
+    # name = args[0]
+    # address = ""
+    # for i in args[1: ]:
+    #     address += " " + i
     rec = book.find(name)
     if rec:
         rec.add_address(address)
@@ -161,3 +165,15 @@ def show_all(book: AddressBook) -> str:
         return "Phonebook is empty."
     else:
         return phonebook
+
+@input_error
+def find_address(args, book: AddressBook) -> str:
+    name = args[0]
+    rec = book.find(name)
+    if rec:
+        if rec.address:
+            return f"Address for {highlight(name)}: {highlight(rec.address)}"
+        else:
+            return f"No address found for {highlight(name)}."
+    else:
+        return f"Contact {highlight(name)} does not exist."
