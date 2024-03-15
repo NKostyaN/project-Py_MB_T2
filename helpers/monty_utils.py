@@ -1,4 +1,5 @@
 from datetime import datetime, timedelta
+import re
 
 
 def highlight(txt: str) -> str:
@@ -13,25 +14,12 @@ def info(txt: str) -> str:
 def error(txt: str) -> str:
     return f"\033[41m{txt}\x1b[0m"          # red background
 
-def strip_phone_number(phone: str, digits=10) -> str:
-    phone = (
-        phone.strip()
-        .removeprefix("+")
-        .replace("(", "")
-        .replace(")", "")
-        .replace("+", "")
-        .replace("-", "")
-        .replace("=", "")
-        .replace("_", "")
-        .replace("*", "")
-        .replace("/", "")
-        .replace("|", "")
-        .replace(" ", "")
-    )
-    if len(phone) > digits:
-        phone = phone[-digits : len(phone)]
+def check_phone(phone: str) -> str:
+    extract = re.findall(r'\d+', phone)
+    phone = ""
+    for line in extract:
+        phone += line
     return phone
-
 
 def show_help() -> str:
     help = (
@@ -41,11 +29,16 @@ def show_help() -> str:
         f"{highlight("rename [username] [new phone]")} - rename contact in the phonebook\n"
         f"{highlight("remove [username]")} - remove contact from phonebook\n"
         f"{highlight("remove-phone [username] [phone]")} - remove phone from contact\n"
-        f"{highlight("phone [username]")} - show all phones of contact\n"
+        f"{highlight("find-contact [username]")} - show all information of contact\n"
+        f"{highlight("find-phone [phone]")} - show all contacts with [phone]\n"
+        f"{highlight("find-email [email]")} - show all contacts with [email]\n"
         f"{highlight("add-birthday [username] [birthday]")} - adding birthday of contact in {highlight("DD.MM.YYYY")} format\n"
+        f"{highlight("change-birthday [username] [birthday]")} - changing birthday of contact in {highlight("DD.MM.YYYY")} format\n"
         f"{highlight("show-birthday [username]")} - show birthday of the contact\n"
         f"{highlight("birthdays")} - show all contacts with birthdays on next week\n"
+        f"{highlight("birthdays [days]")} - show all contacts with birthdays during next [days] days\n"
         f"{highlight("all")} - show all contacts in phonebook\n"
+        f"{highlight("find-note [note title]")} - show note with [title]\n"
         f"{highlight("close")}, {highlight("exit")}, {highlight("quit")}, {highlight("bye")} - close application\n"
         f"{highlight("hello")}, {highlight("hi")} - just a greeting\n"
         f"{highlight("help")}, {highlight("?")} - this help"
@@ -67,7 +60,7 @@ def check_date(date_str: str) -> str:
     
     
 
-def get_birthdays_per_week(users: list) -> str:
+def get_birthdays_per_week(users: list, during_days=7) -> str:
     today = datetime.today().date()
     weekdays = {
         "Monday": [],
@@ -98,7 +91,7 @@ def get_birthdays_per_week(users: list) -> str:
                 bday_this_year += timedelta(days=7 - weekday)
 
             delta = (bday_this_year - today).days
-            if delta < 7:
+            if delta < during_days:
                 weekdays[bday_this_year.strftime("%A")].append(name)
 
         bdays = {}
@@ -109,10 +102,11 @@ def get_birthdays_per_week(users: list) -> str:
             for k, v in bdays.items():
                 print(f"{highlight(str(k))}: {", ".join(v)}")
         else:
-            print("There is no one to congratulate during the week")
+            print("There is no one to congratulate during the week" if during_days == 7 else f"There is no one to congratulate during {during_days} days")
 
     except TypeError:
         print(error("Something wrong in input data, pls check it"))
+
 
 
 if __name__ == "__main__":
