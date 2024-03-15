@@ -10,6 +10,12 @@ try:
     from .record import Record
 except ImportError:
     from record import Record
+try:
+    from .notebook import NoteBook
+except ImportError:
+    from notebook import NoteBook
+
+    
 
 def input_error(func) -> str:
     def inner(*args, **kwargs):
@@ -18,12 +24,15 @@ def input_error(func) -> str:
         except Exception as e:
             error_string = f"{warning(f"Error in {func.__name__}:")} {e}\n"
             if str(func.__name__) == "add_contact":
-                error_string += f"Wrong arguments count, pls use {highlight("add [username] [phone]")}."
+                error_string += f"Wrong arguments count, pls use {
+                    highlight("add [username] [phone]")}."
             elif str(func.__name__) == "change_contact":
-                error_string += f"Wrong arguments count, pls use {highlight("change [username] [phone]")}."
+                error_string += f"Wrong arguments count, pls use {
+                    highlight("change [username] [phone]")}."
             elif str(func.__name__) == "show_phone":
                 error_string += (
-                    f"Wrong arguments count, pls use {highlight("phone [username]")}."
+                    f"Wrong arguments count, pls use {
+                        highlight("phone [username]")}."
                 )
             return error_string
 
@@ -59,7 +68,7 @@ def change_contact(args, book: AddressBook) -> str:
         return "Contact updated."
     else:
         return f"Contact {highlight(name)} does not exist. Check your spelling."
-    
+
 
 @input_error
 def rename_contact(args, book: AddressBook) -> str:
@@ -104,7 +113,8 @@ def find_contact(args, book: AddressBook) -> str:
         return rec
     else:
         return f"Contact {highlight(name)} does not exist. Check your spelling."
-    
+
+
 @input_error
 def find_phone(args, book: AddressBook) -> str:
     phone = args[0]
@@ -141,12 +151,11 @@ def find_email(args, book: AddressBook) -> str:
     
 
 @input_error
-def find_note(args, book: AddressBook) -> str:
+def find_note(args, notes: NoteBook) -> str:
     title = args[0]
-    # email = check_email(email)            # need to add check email from Serg
-    for key, rec in book.items():           # neet to change to notes.items() from Slava
-        if title == rec.title:
-            return rec                      # note.__str__()
+    for item in notes:
+        if title == item.title:
+            return item.title, item.text
         else:
             return f"Note {title} not found"
     
@@ -180,6 +189,23 @@ def add_birthday(args, book: AddressBook) -> str:
     else:
         return f"Contact {highlight(name)} does not exist. Check your spelling."
     
+
+@input_error
+def add_address(args, book: AddressBook) -> str:
+    name = args[0]
+    address = " ".join(args[1:]) 
+    if not address:
+        return "Please provide a valid address."
+    # name = args[0]
+    # address = ""
+    # for i in args[1: ]:
+    #     address += " " + i
+    rec = book.find(name)
+    if rec:
+        rec.add_address(address)
+        return f"Address added to contact {highlight(name)}."
+    
+    
 @input_error
 def change_birthday(args, book: AddressBook) -> str:
     name, bday = args
@@ -196,12 +222,47 @@ def change_birthday(args, book: AddressBook) -> str:
 
 
 @input_error
+def add_email(args, book: AddressBook) -> str:
+    name, email = args
+    rec = book.find(name)
+    if rec:
+        rec.add_email(email)
+        if str(rec.email) != "None":
+            return f"Email added, contact {highlight(name)} updated."
+        else:
+            return ""
+    else:
+        return f"Contact {highlight(name)} does not exist. Check your spelling."
+
+
+@input_error
+def change_email(args, book: AddressBook) -> str:
+    name, email_new = args
+    rec = book.find(name)
+    if rec:
+        rec.edit_email(email_new)
+        return f"Email changed, contact {highlight(name)} updated."
+    else:
+        return f"Contact {highlight(name)} does not exist. Check your spelling."
+
+
+@input_error
 def show_birthday(args, book: AddressBook) -> str:
     name = args[0]
     name = name.capitalize()
     rec = book.find(name)
     if rec:
         return f"{highlight(f"{name}'s")} birthday is: {highlight(str(book.get(name).birthday))}"
+    else:
+        return f"Contact {highlight(name)} does not exist. Check your spelling."
+
+
+@input_error
+def show_email(args, book: AddressBook) -> str:
+    name = args[0]
+    rec = book.find(name)
+    if rec:
+        return f"{highlight(f"{name}'s")} email is: {highlight(str(book.get(name).email))}"
     else:
         return f"Contact {highlight(name)} does not exist. Check your spelling."
 
@@ -222,8 +283,64 @@ def show_all(book: AddressBook) -> str:
     for name in book.keys():
         rec = book.get(name)
         bday = f"; birthday: {highlight(rec.birthday)}" if str(rec.birthday) != "None" else ""
-        phonebook += f"{highlight(name)}, phones: {highlight(rec.phones_list())}{bday}\n"
+        user_email = f"; email: {highlight(rec.email)}" if str(rec.email) != "None" else ""
+        adr = f"; {highlight(rec.address)}" if str(rec.address) != "None" else ""
+        phonebook += f"{highlight(name)}, phones: {highlight(rec.phones_list())}{bday}{user_email}{adr}\n"
     if phonebook == "":
         return "Phonebook is empty."
     else:
         return phonebook
+
+@input_error
+def find_address(args, book: AddressBook) -> str:
+    name = args[0]
+    rec = book.find(name)
+    if rec:
+        if rec.address:
+            return f"Address for {highlight(name)}: {highlight(rec.address)}"
+        else:
+            return f"No address found for {highlight(name)}."
+    else:
+        return f"Contact {highlight(name)} does not exist."
+
+def add_note(args, notes: NoteBook) -> str:
+    title = args[0]
+    text = " ".join(args[1:])
+    if notes.find_by_title(title):
+        return f"Note {title} already exist."
+    else:
+        notes.add_note(title, text)
+        return f"Note {title} has been added."
+
+
+def change_note(args, notes: NoteBook) -> str:
+    title = args[0]
+    new_text = " ".join(args[1:])
+    if notes.find_by_title(title):
+        notes.edit_note(title, new_text)
+        return f"Note {highlight(title)} has been edited."
+    else:
+        return f"Note with title {highlight(title)} not found."
+
+
+def delete_note(args, notes: NoteBook) -> str:
+    title = args[0]
+    if notes.find_by_title(title):
+        notes.remove_note(title)
+        return f"Note {highlight(title)} has been deleted."
+    else:
+        return f"Note with title {highlight(title)} not found."
+
+
+def find_note(args, notes: NoteBook) -> str:
+    title = args[0]
+    res = notes.find_by_title(title)
+    if res:
+        return str(res.text)
+    else:
+        return f"Note with title {highlight(title)} not found."
+
+
+def show_all_notes(notes: NoteBook) -> str:
+    for note in notes.notes:
+        print(f"Title: {highlight(note.title)}\nText: {note.text}\n")

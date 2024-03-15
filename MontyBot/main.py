@@ -29,18 +29,20 @@ def main():
                            "change", "rename", "remove", "remove-phone", "add-birthday",
                            "show-birthday", "change-birthday", "birthdays", "find-contact",
                            "find-phone", "find-email", "find-note", "all", "help"])
-    print("\nWelcome to the assistant bot!")
-    book = load_from_json()     # to do -- >  book = load_from_json("phonebook.json")
-                                # to do -- >  notes = load_from_json("notebook.json")
-    dirty = False
     
+    book = load_from_json("phonebook.json")
+    notes = load_from_json("notes.json")
+    dirty = False
+
+    print("\nWelcome to the assistant bot!")
     while True:
         user_input = prompt("\nEnter a command:> ", completer = words, complete_while_typing = True)
         command, *args = parse_input(user_input)
 
         if command in ["close", "exit", "quit", "bye"]:
             if dirty:
-                save_to_json(book.to_json())
+                save_to_json(book.to_json(), "phonebook.json")
+                save_to_json(notes.to_json(), "notes.json")
             print("Good bye!")
             break
 
@@ -62,22 +64,27 @@ def main():
         elif command == "remove":
             dirty = True
             print(bot.remove_contact(args, book))
-        
+
         elif command == "remove-phone":
             dirty = True
             print(bot.remove_phone(args, book))
 
         elif command == "add-birthday":
-            dirty = True
             print(bot.add_birthday(args, book))
 
+        elif command == "add-address":
+            dirty = True
+            print(bot.add_address(args, book))
+            
         elif command == "change-birthday":
             dirty = True
             print(bot.change_birthday(args, book))
 
         elif command == "show-birthday":
+            dirty = True
             print(bot.show_birthday(args, book))
 
+            dirty = True
         elif command == "birthdays":
             bot.birthdays(args, book)
 
@@ -91,17 +98,48 @@ def main():
             print(bot.find_email(args, book))
         
         elif command == "find-note":
-            print(bot.find_note(args, book))
+            print(bot.find_note(args, notes))
 
         elif command == "all":
             print(bot.show_all(book))
 
+        elif command == "add-note":
+            dirty = True
+            print(bot.add_note(args, notes))
+
+        elif command == "edit-note":
+            dirty = True
+            print(bot.change_note(args, notes))
+
+        elif command == "delete-note":
+            dirty = True
+            print(bot.delete_note(args, notes))
+
+        elif command == "show-notes":
+            dirty = True
+            print(bot.show_all_notes(notes))
+
         elif command in ["help", "?"]:
             print(show_help())
+        
+        elif command == "find-address":
+          print(bot.find_address(args, book))
+
+        elif command == "add-email":
+            dirty = True
+            print(bot.add_email(args, book))
+
+        elif command == "change-email":
+            dirty = True
+            print(bot.change_email(args, book))
+
+        elif command == "show-email":
+            print(bot.show_email(args, book))
 
         else:
             print(
-                f"Invalid command. Use {highlight("help")} or {highlight("?")} to see all available commands."
+                f"Invalid command. Use {highlight("help")} or {
+                    highlight("?")} to see all available commands."
             )
 
 
