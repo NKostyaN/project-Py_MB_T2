@@ -1,33 +1,43 @@
 from helpers.monty_utils import highlight, show_help
 from helpers.monty_data_handler import load_from_json, save_to_json, save_to_json_notes
 import modules.monty_assistant as bot
+from prompt_toolkit import prompt
+from prompt_toolkit.completion import WordCompleter
 
 
 def parse_input(user_input) -> str:
-    cmd, *args = user_input.split()
-    cmd = cmd.strip().lower()
+    try:
+        cmd, *args = user_input.split()
+        cmd = cmd.strip().lower()
+    except:
+        cmd = ""
+        args = ""
     return cmd, *args
 
 
 def main():
+    words = WordCompleter(["hello", "hi", "close", "exit", "quit", "bye", "add",
+                           "change", "rename", "remove", "remove-phone", "add-birthday",
+                           "show-birthday", "change-birthday", "birthdays", "find-contact",
+                           "find-phone", "find-email", "find-note", "all", "help"])
     print("\nWelcome to the assistant bot!")
     book = load_from_json("phonebook.json")
     notes = load_from_json("notes.json")
     dirty = False
 
     while True:
-        user_input = input("\nEnter a command: ")
+        user_input = prompt("\nEnter a command:> ", completer = words)
         command, *args = parse_input(user_input)
 
         if command in ["close", "exit", "quit", "bye"]:
             if dirty:
                 save_to_json(book.to_json(), "phonebook.json")
-                save_to_json_notes(notes.to_json(), "notes.json")
+                save_to_json(notes.to_json(), "notes.json")
             print("Good bye!")
             break
 
         elif command in ["hello", "hi"]:
-            print("How can I help you?")
+            print(f"Hello, my name is {highlight("Monty")}. How can I help you?")
 
         elif command == "add":
             dirty = True
@@ -52,16 +62,29 @@ def main():
         elif command == "add-birthday":
             print(bot.add_birthday(args, book))
 
+        elif command == "change-birthday":
+            dirty = True
+            print(bot.change_birthday(args, book))
+
         elif command == "show-birthday":
             dirty = True
             print(bot.show_birthday(args, book))
 
             dirty = True
         elif command == "birthdays":
-            bot.birthdays(book)
+            bot.birthdays(args, book)
 
-        elif command == "phone":
-            print(bot.show_phone(args, book))
+        elif command == "find-contact":
+            print(bot.find_contact(args, book))
+
+        elif command == "find-phone":
+            print(bot.find_phone(args, book))
+
+        elif command == "find-email":
+            print(bot.find_email(args, book))
+        
+        elif command == "find-note":
+            print(bot.find_note(args, book))
 
         elif command == "all":
             print(bot.show_all(book))

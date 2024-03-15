@@ -5,6 +5,7 @@ from modules.record import Record
 from modules.note import Note
 from modules.notebook import NoteBook
 
+
 def load_from_json(filename) -> AddressBook:
     if filename == "phonebook.json":
         phonebook = AddressBook()
@@ -41,12 +42,7 @@ def load_from_json(filename) -> AddressBook:
         return notes
 
 
-
 def save_to_json(data: dict, filename):
-    with open(filename, "w", encoding="utf-8") as f:
-        json.dump(data, f, ensure_ascii=False, indent=4)
-
-def save_to_json_notes(data, filename):
     with open(filename, "w", encoding="utf-8") as f:
         json.dump(data, f, ensure_ascii=False, indent=4)
 
