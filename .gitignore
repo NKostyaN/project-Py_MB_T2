@@ -1,7 +1,6 @@
 pull-requests.txt
 pull-request.txt
-phonebook.json
-notes.json
+*.json
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
