@@ -29,6 +29,10 @@ def show_help() -> str:
         f"{highlight("rename [username] [new phone]")} - rename contact in the phonebook\n"
         f"{highlight("remove [username]")} - remove contact from phonebook\n"
         f"{highlight("remove-phone [username] [phone]")} - remove phone from contact\n"
+        f"{highlight("phone [username]")} - show all phones of contact\n"
+        f"{highlight("add-email [username] [email]")} - adding e-mail of contact\n"
+        f"{highlight("change-email [username] [new email]")} - changing e-mail of contact\n"
+        f"{highlight("show-email [username]")} - show email of contact\n"
         f"{highlight("find-contact [username]")} - show all information of contact\n"
         f"{highlight("find-phone [phone]")} - show all contacts with [phone]\n"
         f"{highlight("find-email [email]")} - show all contacts with [email]\n"
@@ -57,7 +61,19 @@ def check_date(date_str: str) -> str:
     except Exception as e:
         print(f"{warning(f"Error in {check_date.__name__}:")} {e}")
         print(f"Use {highlight("DD.MM.YYYY")} format please\n")
-    
+
+
+def validate_email(email_str: str) -> str:
+    pattern = r'^[\w\.-]+@[\w\.-]+\.\w+$'
+    if re.match(pattern, email_str):
+        return email_str
+
+def check_email(email_str: str) -> str:
+    try:
+        validated_email = validate_email(email_str)
+        return validated_email 
+    except Exception as e:
+        return None  
     
 
 def get_birthdays_per_week(users: list, during_days=7) -> str:

@@ -6,6 +6,8 @@ from modules.address import Address
 from helpers.monty_utils import highlight
 
 
+
+
 class Record:
     def __init__(self, name: str):
         self.name = Name(name)
@@ -18,6 +20,10 @@ class Record:
         res = f"{highlight(self.name)}, phones: {highlight('; '.join(str(p) for p in self.phones))}"
         if str(self.birthday) != "None":
             res = res + f", birthday: {highlight(self.birthday)}"
+        if str(self.email) != "None":
+            res = res + f", email: {highlight(self.email)}"
+        if str(self.address) != "None":
+            res = res + f", Address: {highlight(self.address)}"
         return res
 
     def phones_list(self):
@@ -36,6 +42,9 @@ class Record:
         for phone in self.phones:
             if phone == old_phone:
                 phone.set_phone(new_phone)
+    
+    def edit_email(self, email: str):
+        self.email = Email(email)
 
     def remove_phone(self, phone: str):
         for item in self.phones:
@@ -44,6 +53,9 @@ class Record:
 
     def add_birthday(self, birthday) -> str:
         self.birthday = Birthday(birthday)
+    
+    def add_email(self, email) -> str:
+        self.email = Email(email)
 
     def add_address(self, address) -> str:
         self.address = Address(address)
@@ -56,5 +68,8 @@ class Record:
             "name": str(self.name),
             "phones": phones,
             "birthday": str(self.birthday),
+            "email": str(self.email),
             "address": str(self.address.to_json()),
         }
+    
+
