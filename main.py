@@ -1,5 +1,5 @@
 from helpers.monty_utils import highlight, show_help
-from helpers.monty_data_handler import load_from_json, save_to_json
+from helpers.monty_data_handler import load_from_json, save_to_json, save_to_json_notes
 import modules.monty_assistant as bot
 
 
@@ -12,7 +12,7 @@ def parse_input(user_input) -> str:
 def main():
     print("\nWelcome to the assistant bot!")
     book = load_from_json("phonebook.json")
-    note = load_from_json("notes.json")
+    notes = load_from_json("notes.json")
     dirty = False
     
     while True:
@@ -22,7 +22,7 @@ def main():
         if command in ["close", "exit", "quit", "bye"]:
             if dirty:
                 save_to_json(book.to_json(), "phonebook.json")
-                save_to_json(note.to_json(), "notes.json")
+                save_to_json_notes(notes.to_json(), "notes.json")
             print("Good bye!")
             break
 

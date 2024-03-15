@@ -189,7 +189,7 @@ def add_note(args, notes: NoteBook) -> str:
     text = ""
     for i in args[1: ]:
         text += " " + i
-    rec = notes.search_by_title(title)
+    rec = notes.add_note(title, text)
     if rec:
         return f"Note {title} already exist."
     else:

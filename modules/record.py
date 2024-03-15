@@ -4,6 +4,8 @@ from modules.email import Email
 from modules.birthday import Birthday
 
 
+
+
 class Record:
     def __init__(self, name: str):
         self.name = Name(name)
@@ -61,12 +63,4 @@ class Record:
             "email": str(self.email),
         }
     
-    def to_json_note(self) -> dict:  #потрібно внести!!!
-        notes = []
-        for item in self.notes:
-            notes.append(str(item))
-        return {
-            "title": str(self.title),
-            "text": notes,
-            "data": str(self.data_create),
-        }
+

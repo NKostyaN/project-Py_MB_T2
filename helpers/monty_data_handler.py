@@ -2,8 +2,8 @@ import json
 from helpers.monty_utils import info
 from modules.address_book import AddressBook
 from modules.record import Record
+from modules.note import Note
 from modules.notebook import NoteBook
-
 
 def load_from_json(filename) -> AddressBook:
     if filename == "phonebook.json":
@@ -27,18 +27,13 @@ def load_from_json(filename) -> AddressBook:
             Log.not_found(filename)
         return phonebook
     else:
-        notes = NoteBook()  #потрібно внести!!!
+        notes = NoteBook()  
         try:
             with open(filename, "r", encoding="utf-8 ") as f:
                 data = json.load(f)
                 if data != "":
-                    for key in data.keys():
-                        rec = Record(key)
-                        if str(data.get(key).get("title")) != "None":
-                            rec.add_title(data.get(key).get("title"))
-                        if str(data.get(key).get("text")) != "None":
-                            rec.add_text(data.get(key).get("text"))
-                        notes.add_record(rec)
+                   for key, value in data.items():
+                       notes.add_note(key, value)
                 else:
                     Log.empty(filename)
         except FileNotFoundError:
@@ -48,6 +43,10 @@ def load_from_json(filename) -> AddressBook:
 
 
 def save_to_json(data: dict, filename):
+    with open(filename, "w", encoding="utf-8") as f:
+        json.dump(data, f, ensure_ascii=False, indent=4)
+
+def save_to_json_notes(data, filename):
     with open(filename, "w", encoding="utf-8") as f:
         json.dump(data, f, ensure_ascii=False, indent=4)
 

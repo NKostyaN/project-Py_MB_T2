@@ -23,4 +23,9 @@ class NoteBook:
             if title in i.title:
                 return i
         return None
-
+    
+    def to_json(self) -> dict:
+        res = {}
+        for item in self.notes:
+            res.update({item.title: item.text})
+        return res
