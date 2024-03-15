@@ -119,6 +119,31 @@ def add_birthday(args, book: AddressBook) -> str:
 
 
 @input_error
+def add_email(args, book: AddressBook) -> str:
+    name, email = args
+    rec = book.find(name)
+    if rec:
+        rec.add_email(email)
+        if str(rec.email) != "None":
+            return f"Email added, contact {highlight(name)} updated."
+        else:
+            return ""
+    else:
+        return f"Contact {highlight(name)} does not exist. Check your spelling."
+
+
+@input_error
+def change_email(args, book: AddressBook) -> str:
+    name, email_new = args
+    rec = book.find(name)
+    if rec:
+        rec.edit_email(email_new)
+        return f"Email changed, contact {highlight(name)} updated."
+    else:
+        return f"Contact {highlight(name)} does not exist. Check your spelling."
+
+
+@input_error
 def show_birthday(args, book: AddressBook) -> str:
     name = args[0]
     rec = book.find(name)
@@ -128,6 +153,16 @@ def show_birthday(args, book: AddressBook) -> str:
         return f"Contact {highlight(name)} does not exist. Check your spelling."
 
 
+@input_error
+def show_email(args, book: AddressBook) -> str:
+    name = args[0]
+    rec = book.find(name)
+    if rec:
+        return f"{highlight(f"{name}'s")} email is: {highlight(str(book.get(name).email))}"
+    else:
+        return f"Contact {highlight(name)} does not exist. Check your spelling."
+    
+    
 @input_error
 def birthdays(book: AddressBook) -> str:
     phonebook = []
@@ -142,7 +177,8 @@ def show_all(book: AddressBook) -> str:
     for name in book.keys():
         rec = book.get(name)
         bday = f"; birthday: {highlight(rec.birthday)}" if str(rec.birthday) != "None" else ""
-        phonebook += f"{highlight(name)}, phones: {highlight(rec.phones_list())}{bday}\n"
+        user_email = f"; email: {highlight(rec.email)}" if str(rec.email) != "None" else ""
+        phonebook += f"{highlight(name)}, phones: {highlight(rec.phones_list())}{bday}{user_email}\n"
     if phonebook == "":
         return "Phonebook is empty."
     else:
@@ -152,8 +188,8 @@ def add_note(args, notes: NoteBook) -> str:
     title = args[0]
     text = ""
     for i in args[1: ]:
-        text += i
-    rec = notes.find_by_title(title)
+        text += " " + i
+    rec = notes.search_by_title(title)
     if rec:
         return f"Note {title} already exist."
     else:
