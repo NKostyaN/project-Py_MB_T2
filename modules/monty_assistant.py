@@ -138,12 +138,11 @@ def find_email(args, book: AddressBook) -> str:
     
 
 @input_error
-def find_note(args, book: AddressBook) -> str:
+def find_note(args, notes: NoteBook) -> str:
     title = args[0]
-    # email = check_email(email)            # need to add check email from Serg
-    for key, rec in book.items():           # neet to change to notes.items() from Slava
-        if title == rec.title:
-            return rec                      # note.__str__()
+    for item in notes:
+        if title == item.title:
+            return item.title, item.text
         else:
             return f"Note {title} not found"
     

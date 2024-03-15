@@ -1,5 +1,5 @@
 from helpers.monty_utils import highlight, show_help
-from helpers.monty_data_handler import load_from_json, save_to_json, save_to_json_notes
+from helpers.monty_data_handler import load_from_json, save_to_json
 import modules.monty_assistant as bot
 from prompt_toolkit import prompt
 from prompt_toolkit.completion import WordCompleter
@@ -20,11 +20,12 @@ def main():
                            "change", "rename", "remove", "remove-phone", "add-birthday",
                            "show-birthday", "change-birthday", "birthdays", "find-contact",
                            "find-phone", "find-email", "find-note", "all", "help"])
-    print("\nWelcome to the assistant bot!")
+    
     book = load_from_json("phonebook.json")
     notes = load_from_json("notes.json")
     dirty = False
 
+    print("\nWelcome to the assistant bot!")
     while True:
         user_input = prompt("\nEnter a command:> ", completer = words)
         command, *args = parse_input(user_input)
@@ -84,7 +85,7 @@ def main():
             print(bot.find_email(args, book))
         
         elif command == "find-note":
-            print(bot.find_note(args, book))
+            print(bot.find_note(args, notes))
 
         elif command == "all":
             print(bot.show_all(book))
@@ -92,10 +93,6 @@ def main():
         elif command == "add-note":
             dirty = True
             print(bot.add_note(args, notes))
-
-        elif command == "find-note":
-            dirty = True
-            print(bot.find_note(args, notes))
 
         elif command == "edit-note":
             dirty = True

@@ -2,7 +2,6 @@ import json
 from helpers.monty_utils import info
 from modules.address_book import AddressBook
 from modules.record import Record
-from modules.note import Note
 from modules.notebook import NoteBook
 
 
