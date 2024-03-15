@@ -19,15 +19,12 @@ class NoteBook:
             if note.title == title:
                 self.notes.remove(note)
 
-<<<<<<< HEAD
     def find_by_title(self, title: str) -> Note:
         for note in self.notes:
             if title in note.title:
                 return note
-=======
     def to_json(self) -> dict:
         res = {}
         for item in self.notes:
             res.update({item.title: item.text})
         return res
->>>>>>> origin/feature_email_2
