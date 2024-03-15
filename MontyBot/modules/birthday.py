@@ -1,4 +1,7 @@
-from helpers.monty_utils import check_date
+try:
+    from MontyBot.helpers.monty_utils import check_date
+except ImportError:
+    from helpers.monty_utils import check_date
 
 
 class Birthday:
