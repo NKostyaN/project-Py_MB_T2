@@ -1,5 +1,4 @@
 from modules.note import Note
-import json
 
 
 class NoteBook:
