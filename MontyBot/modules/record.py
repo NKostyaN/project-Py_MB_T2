@@ -1,8 +1,24 @@
-from modules.name import Name
-from modules.phone import Phone
-from modules.email import Email
-from modules.birthday import Birthday
-from helpers.monty_utils import highlight
+
+try:
+    from .name import Name
+except ImportError:
+    from name import Name
+try:
+    from .phone import Phone
+except ImportError:
+    from phone import Phone
+try:
+    from .email import Email
+except ImportError:
+    from email import Email
+try:
+    from .birthday import Birthday
+except ImportError:
+    from birthday import Birthday
+try:
+    from MontyBot.helpers.monty_utils import highlight
+except ImportError:
+    from helpers.monty_utils import highlight
 
 
 class Record:

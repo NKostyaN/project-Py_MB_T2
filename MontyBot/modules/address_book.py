@@ -1,5 +1,8 @@
 from collections import UserDict
-from modules.record import Record
+try:
+    from .record import Record
+except ImportError:
+    from record import Record
 
 
 class AddressBook(UserDict):

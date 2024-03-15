@@ -1,6 +1,15 @@
-from helpers.monty_utils import highlight, show_help
-from helpers.monty_data_handler import load_from_json, save_to_json
-import modules.monty_assistant as bot
+try:
+    from MontyBot.helpers.monty_utils import highlight, show_help
+except ImportError:
+    from helpers.monty_utils import highlight, show_help
+try:
+    from MontyBot.helpers.monty_data_handler import load_from_json, save_to_json
+except ImportError:
+    from helpers.monty_data_handler import load_from_json, save_to_json
+try:
+    from MontyBot.modules import monty_assistant as bot
+except ImportError:
+    from modules import monty_assistant as bot
 from prompt_toolkit import prompt
 from prompt_toolkit.completion import WordCompleter
 
@@ -26,7 +35,7 @@ def main():
     dirty = False
     
     while True:
-        user_input = prompt("\nEnter a command:> ", completer = words)
+        user_input = prompt("\nEnter a command:> ", completer = words, complete_while_typing = True)
         command, *args = parse_input(user_input)
 
         if command in ["close", "exit", "quit", "bye"]:

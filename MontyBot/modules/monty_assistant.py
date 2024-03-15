@@ -1,7 +1,15 @@
-from helpers.monty_utils import highlight, warning, get_birthdays_per_week, check_phone
-from modules.address_book import AddressBook
-from modules.record import Record
-
+try:
+    from MontyBot.helpers.monty_utils import highlight, warning, get_birthdays_per_week, check_phone
+except ImportError:
+    from helpers.monty_utils import highlight, warning, get_birthdays_per_week, check_phone
+try:
+    from .address_book import AddressBook
+except ImportError:
+    from address_book import AddressBook
+try:
+    from .record import Record
+except ImportError:
+    from record import Record
 
 def input_error(func) -> str:
     def inner(*args, **kwargs):

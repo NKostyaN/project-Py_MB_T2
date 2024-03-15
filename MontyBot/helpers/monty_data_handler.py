@@ -1,7 +1,17 @@
+from pathlib import Path
 import json
-from helpers.monty_utils import info
-from modules.address_book import AddressBook
-from modules.record import Record
+try:
+    from .monty_utils import info
+except ImportError:
+    from monty_utils import info
+try:    
+    from MontyBot.modules.address_book import AddressBook
+except ImportError:
+    from modules.address_book import AddressBook
+try:
+    from MontyBot.modules.record import Record
+except ImportError:
+    from modules.record import Record
 
 
 def load_from_json() -> (
@@ -9,7 +19,8 @@ def load_from_json() -> (
 ):  # to do -->     def load_from_json(filename: str) -> AddressBook:
     phonebook = AddressBook()
     try:
-        with open("phonebook.json", "r", encoding="utf-8 ") as f:
+        # with open(Path.home() / "MontyBot_phonebook.json", "r", encoding="utf-8 ") as f:          # use user path
+        with open("MontyBot_phonebook.json", "r", encoding="utf-8 ") as f:
             data = json.load(f)
             if data != "":
                 for key in data.keys():
@@ -29,7 +40,8 @@ def load_from_json() -> (
 def save_to_json(
     data: dict,
 ):  # to do -->     def save_to_json(data: dict, filename: str):
-    with open("phonebook.json", "w", encoding="utf-8") as f:
+    # with open(Path.home() / "MontyBot_phonebook.json", "w", encoding="utf-8") as f:               # use user path
+    with open("MontyBot_phonebook.json", "w", encoding="utf-8") as f:
         json.dump(data, f, ensure_ascii=False, indent=4)
 
 
