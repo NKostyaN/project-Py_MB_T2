@@ -1,4 +1,4 @@
-from helpers.monty_utils import highlight, warning, get_birthdays_per_week, strip_phone_number
+from helpers.monty_utils import highlight, warning, get_birthdays_per_week, check_phone
 from modules.address_book import AddressBook
 from modules.record import Record
 
@@ -25,7 +25,8 @@ def input_error(func) -> str:
 @input_error
 def add_contact(args, book: AddressBook):
     name, phone = args
-    phone = strip_phone_number(str(phone))
+    name = name.capitalize()
+    phone = check_phone(str(phone))
     rec = book.find(name)
     if rec:
         if rec.find_phone(phone) != None:
@@ -43,6 +44,7 @@ def add_contact(args, book: AddressBook):
 @input_error
 def change_contact(args, book: AddressBook) -> str:
     name, phone_old, phone_new = args
+    name = name.capitalize()
     rec = book.find(name)
     if rec:
         rec.edit_phone(phone_old, phone_new)
@@ -54,17 +56,21 @@ def change_contact(args, book: AddressBook) -> str:
 @input_error
 def rename_contact(args, book: AddressBook) -> str:
     name, new_name = args
-    print(name, new_name)
+    name = name.capitalize()
+    new_name = new_name.capitalize()
     rec = book.find(name)
     if rec:
-        new_rec = Record(new_name)
-        for phone in rec.phones:
-            new_rec.add_phone(str(phone))
-        if str(rec.birthday) != "None":
-            new_rec.add_birthday(str(rec.birthday))
-        book.add_record(new_rec)
-        book.delete(name)
-        return f"Contact {highlight(name)} now have new name {highlight(new_rec.name)}"
+        if name != new_name:
+            new_rec = Record(new_name)
+            for phone in rec.phones:
+                new_rec.add_phone(str(phone))
+            if str(rec.birthday) != "None":
+                new_rec.add_birthday(str(rec.birthday))
+            book.add_record(new_rec)
+            book.delete(name)
+            return f"Contact {highlight(name)} now have new name {highlight(new_rec.name)}"
+        else:
+            return f"Contact name {highlight(name)} equal new name {highlight(new_name)}"
     else:
         return f"Contact {highlight(name)} does not exist. Check your spelling."
 
@@ -72,6 +78,7 @@ def rename_contact(args, book: AddressBook) -> str:
 @input_error
 def remove_contact(args, book: AddressBook) -> str:
     name = args[0]
+    name = name.capitalize()
     rec = book.find(name)
     if rec:
         book.delete(name)
@@ -81,17 +88,65 @@ def remove_contact(args, book: AddressBook) -> str:
 
 
 @input_error
-def show_phone(args, book: AddressBook) -> str:
+def find_contact(args, book: AddressBook) -> str:
     name = args[0]
+    name = name.capitalize()
     rec = book.find(name)
     if rec:
-        return f"{highlight(f"{name}'s")} phones is: {highlight(rec.phones_list())}"
+        return rec
     else:
         return f"Contact {highlight(name)} does not exist. Check your spelling."
     
 @input_error
+def find_phone(args, book: AddressBook) -> str:
+    phone = args[0]
+    phone = check_phone(phone)
+    finded = []
+    for key, rec in book.items():
+        for item in rec.phones:
+            if phone == str(item):
+                finded.append(rec)
+    if finded:
+        res = ""
+        for item in finded:
+            res += f"{str(item)}\n"
+        return res
+    else:
+        return f"Phone {phone} not found"
+
+
+@input_error
+def find_email(args, book: AddressBook) -> str:
+    email = args[0]
+    # email = check_email(email)          # need to add check email from Serg
+    finded = []
+    for key, rec in book.items():
+        if email == rec.email:
+            finded.append(rec)
+    if finded:
+        res = ""
+        for item in finded:
+            res += f"{str(item)}\n"
+        return res
+    else:
+        return f"Email {email} not found"
+    
+
+@input_error
+def find_note(args, book: AddressBook) -> str:
+    title = args[0]
+    # email = check_email(email)            # need to add check email from Serg
+    for key, rec in book.items():           # neet to change to notes.items() from Slava
+        if title == rec.title:
+            return rec                      # note.__str__()
+        else:
+            return f"Note {title} not found"
+    
+    
+@input_error
 def remove_phone(args, book: AddressBook) -> str:
     name, phone = args
+    name = name.capitalize()
     rec = book.find(name)
     if rec:
         if rec.find_phone(phone) != None:
@@ -106,6 +161,7 @@ def remove_phone(args, book: AddressBook) -> str:
 @input_error
 def add_birthday(args, book: AddressBook) -> str:
     name, bday = args
+    name = name.capitalize()
     rec = book.find(name)
     if rec:
         rec.add_birthday(bday)
@@ -115,11 +171,26 @@ def add_birthday(args, book: AddressBook) -> str:
             return ""
     else:
         return f"Contact {highlight(name)} does not exist. Check your spelling."
+    
+@input_error
+def change_birthday(args, book: AddressBook) -> str:
+    name, bday = args
+    name = name.capitalize()
+    rec = book.find(name)
+    if rec:
+        rec.add_birthday(bday)
+        if str(rec.birthday) != "None":
+            return f"Birthday changed, contact {highlight(name)} updated."
+        else:
+            return ""
+    else:
+        return f"Contact {highlight(name)} does not exist. Check your spelling."
 
 
 @input_error
 def show_birthday(args, book: AddressBook) -> str:
     name = args[0]
+    name = name.capitalize()
     rec = book.find(name)
     if rec:
         return f"{highlight(f"{name}'s")} birthday is: {highlight(str(book.get(name).birthday))}"
@@ -128,12 +199,14 @@ def show_birthday(args, book: AddressBook) -> str:
 
 
 @input_error
-def birthdays(book: AddressBook) -> str:
+def birthdays(args, book: AddressBook) -> str:
+    days = int(args[0]) if args else 7
+    days = 7 if days < 1 else days
     phonebook = []
     for name in book.keys():
         if str(book.get(name).birthday) != "None":
             phonebook.append({name : str(book.get(name).birthday)})
-    return get_birthdays_per_week(phonebook)
+    return get_birthdays_per_week(phonebook, days)
     
 
 def show_all(book: AddressBook) -> str:

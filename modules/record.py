@@ -2,18 +2,21 @@ from modules.name import Name
 from modules.phone import Phone
 from modules.email import Email
 from modules.birthday import Birthday
+from helpers.monty_utils import highlight
 
 
 class Record:
     def __init__(self, name: str):
         self.name = Name(name)
         self.phones = []
-        self.birthday = None
+        self.birthday = "None"
+        self.email = None
+        self.address = None
 
     def __str__(self):
-        res = f"{self.name}, phones: {'; '.join(p for p in self.phones)}"
+        res = f"{highlight(self.name)}, phones: {highlight('; '.join(str(p) for p in self.phones))}"
         if str(self.birthday) != "None":
-            res = res + f", birthday: {self.birthday}"
+            res = res + f", birthday: {highlight(self.birthday)}"
         return res
 
     def phones_list(self):

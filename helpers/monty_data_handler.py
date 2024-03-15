@@ -4,7 +4,9 @@ from modules.address_book import AddressBook
 from modules.record import Record
 
 
-def load_from_json() -> AddressBook:
+def load_from_json() -> (
+    AddressBook
+):  # to do -->     def load_from_json(filename: str) -> AddressBook:
     phonebook = AddressBook()
     try:
         with open("phonebook.json", "r", encoding="utf-8 ") as f:
@@ -24,7 +26,9 @@ def load_from_json() -> AddressBook:
     return phonebook
 
 
-def save_to_json(data: dict):
+def save_to_json(
+    data: dict,
+):  # to do -->     def save_to_json(data: dict, filename: str):
     with open("phonebook.json", "w", encoding="utf-8") as f:
         json.dump(data, f, ensure_ascii=False, indent=4)
 
