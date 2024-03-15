@@ -1,5 +1,5 @@
 from helpers.monty_utils import highlight, show_help
-from helpers.monty_data_handler import load_from_json, save_to_json
+from helpers.monty_data_handler import load_from_json, save_to_json, save_to_json_notes
 import modules.monty_assistant as bot
 
 
@@ -14,14 +14,15 @@ def main():
     book = load_from_json("phonebook.json")
     notes = load_from_json("notes.json")
     dirty = False
-    
+
     while True:
         user_input = input("\nEnter a command: ")
         command, *args = parse_input(user_input)
 
         if command in ["close", "exit", "quit", "bye"]:
             if dirty:
-                save_to_json(book.to_json())
+                save_to_json(book.to_json(), "phonebook.json")
+                save_to_json_notes(notes.to_json(), "notes.json")
             print("Good bye!")
             break
 
@@ -43,7 +44,7 @@ def main():
         elif command == "remove":
             dirty = True
             print(bot.remove_contact(args, book))
-        
+
         elif command == "remove-phone":
             dirty = True
             print(bot.remove_phone(args, book))
@@ -81,12 +82,28 @@ def main():
             dirty = True
             print(bot.delete_note(args, notes))
 
+        elif command == "show-notes":
+            dirty = True
+            print(bot.show_all_notes(notes))
+
         elif command in ["help", "?"]:
             print(show_help())
 
+        elif command == "add-email":
+            dirty = True
+            print(bot.add_email(args, book))
+
+        elif command == "change-email":
+            dirty = True
+            print(bot.change_email(args, book))
+
+        elif command == "show-email":
+            print(bot.show_email(args, book))
+
         else:
             print(
-                f"Invalid command. Use {highlight("help")} or {highlight("?")} to see all available commands."
+                f"Invalid command. Use {highlight("help")} or {
+                    highlight("?")} to see all available commands."
             )
 
 
