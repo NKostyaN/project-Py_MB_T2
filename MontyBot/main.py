@@ -9,6 +9,7 @@ except ImportError:
 try:
     from MontyBot.modules import monty_assistant as bot
 except ImportError:
+    
     from modules import monty_assistant as bot
 from prompt_toolkit import prompt
 from prompt_toolkit.completion import WordCompleter

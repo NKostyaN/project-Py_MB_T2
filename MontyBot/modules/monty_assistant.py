@@ -15,7 +15,6 @@ try:
 except ImportError:
     from notebook import NoteBook
 
-    
 
 def input_error(func) -> str:
     def inner(*args, **kwargs):
@@ -148,18 +147,8 @@ def find_email(args, book: AddressBook) -> str:
         return res
     else:
         return f"Email {email} not found"
-    
 
-@input_error
-def find_note(args, notes: NoteBook) -> str:
-    title = args[0]
-    for item in notes:
-        if title == item.title:
-            return item.title, item.text
-        else:
-            return f"Note {title} not found"
-    
-    
+
 @input_error
 def remove_phone(args, book: AddressBook) -> str:
     name, phone = args
@@ -188,20 +177,20 @@ def add_birthday(args, book: AddressBook) -> str:
             return ""
     else:
         return f"Contact {highlight(name)} does not exist. Check your spelling."
-    
+
 
 @input_error
 def add_address(args, book: AddressBook) -> str:
     name = args[0]
-    address = " ".join(args[1:]) 
+    address = " ".join(args[1:])
     if not address:
         return "Please provide a valid address."
     rec = book.find(name)
     if rec:
         rec.add_address(address)
         return f"Address added to contact {highlight(name)}."
-    
-    
+
+
 @input_error
 def edit_birthday(args, book: AddressBook) -> str:
     name, bday = args
@@ -270,7 +259,7 @@ def birthdays(args, book: AddressBook) -> str:
     phonebook = []
     for name in book.keys():
         if str(book.get(name).birthday) != "None":
-            phonebook.append({name : str(book.get(name).birthday)})
+            phonebook.append({name: str(book.get(name).birthday)})
     return get_birthdays_per_week(phonebook, days)
 
 
@@ -279,10 +268,13 @@ def show_all_contacts(book: AddressBook) -> str:
     phonebook = ""
     for name in book.keys():
         rec = book.get(name)
-        bday = f"; birthday: {highlight(rec.birthday)}" if str(rec.birthday) != "None" else ""
-        user_email = f"; email: {highlight(rec.email)}" if str(rec.email) != "None" else ""
+        bday = f"; birthday: {highlight(rec.birthday)}" if str(
+            rec.birthday) != "None" else ""
+        user_email = f"; email: {highlight(rec.email)}" if str(
+            rec.email) != "None" else ""
         adr = f"; address: {rec.address}" if str(rec.address) != "None" else ""
-        phonebook += f"{highlight(name)}, phones: {highlight(rec.phones_list())}{bday}{user_email}{adr}\n"
+        phonebook += f"{highlight(name)}, phones: {highlight(rec.phones_list())}{
+            bday}{user_email}{adr}\n"
     if phonebook == "":
         return "Phonebook is empty."
     else:
@@ -301,16 +293,17 @@ def find_address(args, book: AddressBook) -> str:
     else:
         return f"Contact {highlight(name)} does not exist."
 
+
 @input_error
 def add_note(args, notes: NoteBook) -> str:
-    title = args[0]
-    text = " ".join(args[1:])
+    title, rest = args[1].split(";")
+    text, tags = rest.split(";")
+    tags_list = [tag.strip() for tag in tags.split(",")]
     if notes.find_by_title(title):
-        return f"Note {highlight(title)} already exist."
+        return f"Note {highlight(title)} already exists."
     else:
-        notes.add_note(title, text)
+        notes.add_note(title.strip(), text.strip(), tags_list)
         return f"Note {highlight(title)} has been added."
-
 
 @input_error
 def edit_note(args, notes: NoteBook) -> str:
@@ -344,5 +337,25 @@ def find_note(args, notes: NoteBook) -> str:
 
 @input_error
 def show_all_notes(notes: NoteBook) -> str:
+    if not notes:
+        return "\nNoteBook is empty"
+    notes_str = ""
     for note in notes.notes:
-        return f"Title: {highlight(note.title)}\nText: {note.text}\n"
+        notes_str += f"Title: {highlight(note.title)}\nText: {note.text}\n\
+    Tags: {', '.join(note.tags)}\n\n"
+    return notes_str
+
+
+@input_error
+def search_notes_by_tag(self, tag):                # add new function for tags
+    found_notes = []
+    for note in self.notes:
+        if tag in note.tags:
+            found_notes.append(note)
+    return found_notes
+
+
+@input_error
+def sort_notes_by_tag(self, tag):                 # add new function for tags
+    sorted_notes = sorted(self.notes, key=lambda x: tag in x.tags)
+    return sorted_notes
