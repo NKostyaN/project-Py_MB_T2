@@ -1,4 +1,3 @@
-
 try:
     from .name import Name
 except ImportError:

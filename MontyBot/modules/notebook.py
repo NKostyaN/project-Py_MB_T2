@@ -1,4 +1,7 @@
-from modules.note import Note
+try:
+    from MontyBot.modules.note import Note
+except ImportError:
+    from modules.note import Note
 
 class NoteBook:
     def __init__(self):

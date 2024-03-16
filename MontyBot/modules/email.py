@@ -1,4 +1,7 @@
-from helpers.monty_utils import check_email
+try:
+    from MontyBot.helpers.monty_utils import check_email
+except ImportError:
+    from helpers.monty_utils import check_email
 
 
 class Email():
