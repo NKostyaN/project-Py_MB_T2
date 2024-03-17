@@ -22,9 +22,25 @@ class NoteBook:
         for note in self.notes:
             if title in note.title:
                 return note
+            
+    def search_notes_by_tag(self, tag):
+        found_notes = []
+        for note in self.notes:
+            if tag in note.tags:
+                found_notes.append(note)
+        return found_notes
 
+    def sort_notes_by_tag(self, tag):
+        sorted_notes = sorted(self.notes, key=lambda note: tag in note.tags)
+        return sorted_notes
+
+
+    # it was changed
     def to_json(self) -> dict:
         res = {}
         for item in self.notes:
-            res.update({item.title: item.text})
+            res[item.title] = {
+                "text": item.text,
+                "tags": item.tags  # Assuming 'tags' is an attribute of the note item
+            }
         return res

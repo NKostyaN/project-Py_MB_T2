@@ -296,14 +296,18 @@ def find_address(args, book: AddressBook) -> str:
 
 @input_error
 def add_note(args, notes: NoteBook) -> str:
-    title, rest = args[1].split(";")
-    text, tags = rest.split(";")
-    tags_list = [tag.strip() for tag in tags.split(",")]
+    if len(args) < 2:
+        raise ValueError("Invalid input format for adding a note.")
+    title, rest = args[1].split(";", 1)
+    if not (text := rest.split(";", 1)[0]).strip():
+        raise ValueError("Invalid input format for adding a note.")
+    tags_list = [tag.strip() for tag in rest.split(";", 1)[1].split(",")]
     if notes.find_by_title(title):
         return f"Note {highlight(title)} already exists."
     else:
         notes.add_note(title.strip(), text.strip(), tags_list)
         return f"Note {highlight(title)} has been added."
+
 
 @input_error
 def edit_note(args, notes: NoteBook) -> str:
@@ -338,11 +342,8 @@ def find_note(args, notes: NoteBook) -> str:
 @input_error
 def show_all_notes(notes: NoteBook) -> str:
     if not notes:
-        return "\nNoteBook is empty"
-    notes_str = ""
-    for note in notes.notes:
-        notes_str += f"Title: {highlight(note.title)}\nText: {note.text}\n\
-    Tags: {', '.join(note.tags)}\n\n"
+        print("NoteBook is empty")
+    notes_str = "".join(f"{note}\n\n" for note in notes.notes)
     return notes_str
 
 

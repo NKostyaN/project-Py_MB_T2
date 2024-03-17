@@ -9,7 +9,7 @@ except ImportError:
 try:
     from MontyBot.modules import monty_assistant as bot
 except ImportError:
-    
+
     from modules import monty_assistant as bot
 from prompt_toolkit import prompt
 from prompt_toolkit.completion import WordCompleter
@@ -19,10 +19,17 @@ def parse_input(user_input) -> str:
     try:
         cmd, *args = user_input.split()
         cmd = cmd.strip().lower()
-    except:
+    except ValueError:              # add ValueError
         cmd = ""
         args = ""
     return cmd, *args
+
+def parse_input_for_note(user_input: str) -> tuple:
+    user_input = user_input.strip().lower()
+    parts = user_input.split(" ", maxsplit=1)
+    cmd = parts[0]  
+    args = parts[1:] if len(parts) > 1 else ""
+    return cmd, args
 
 
 def main():
@@ -33,15 +40,19 @@ def main():
                            "rename", "remove", "remove-phone", "remove-note",
                            "birthdays", "show-birthday", "show-email",
                            "all", "all-notes", "help", "?"])
-    
+
     book = load_from_json("MontyBot_phonebook.json", "phonebook")
     notes = load_from_json("MontyBot_notes.json", "notebook")
     dirty = False
 
     print("\nWelcome to the assistant bot!")
     while True:
-        user_input = prompt("\nEnter a command:> ", completer = words, complete_while_typing = True)
-        command, *args = parse_input(user_input)
+        user_input = prompt("\nEnter a command:> ",
+                            completer=words, complete_while_typing=True)
+        if user_input.startwith("add-note"):
+            command, args = parse_input_for_note(user_input)
+        else:
+            command, *args = parse_input(user_input)
 
         if command in ["close", "exit", "quit", "bye"]:
             if dirty:
@@ -51,7 +62,8 @@ def main():
             break
 
         elif command in ["hello", "hi"]:
-            print(f"Hello, my name is {highlight("Monty")}. How can I help you?")
+            print(f"Hello, my name is {
+                  highlight("Monty")}. How can I help you?")
 
         elif command == "add":
             dirty = True
@@ -72,11 +84,11 @@ def main():
         elif command == "edit":
             dirty = True
             print(bot.edit_contact(args, book))
-            
+
         elif command == "edit-birthday":
             dirty = True
             print(bot.edit_birthday(args, book))
-            
+
         elif command == "edit-email":
             dirty = True
             print(bot.edit_email(args, book))
@@ -110,7 +122,7 @@ def main():
 
         elif command == "find-email":
             print(bot.find_email(args, book))
-        
+
         elif command == "find-address":
             print(bot.find_address(args, book))
 
@@ -133,12 +145,11 @@ def main():
             print(bot.find_note(args, notes))
 
         elif command == "all-notes":
-            dirty = True
             print(bot.show_all_notes(notes))
 
         elif command in ["help", "?"]:
             print(show_help())
-        
+
         else:
             print(
                 f"Invalid command. Use {highlight("help")} or {
