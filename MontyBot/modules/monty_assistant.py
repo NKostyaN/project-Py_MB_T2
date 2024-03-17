@@ -342,9 +342,10 @@ def find_note(args, notes: NoteBook) -> str:
 @input_error
 def show_all_notes(notes: NoteBook) -> str:
     if not notes:
-        print("NoteBook is empty")
-    notes_str = "".join(f"{note}\n\n" for note in notes.notes)
-    return notes_str
+        return "NoteBook is empty"
+    else:
+        notes_str = "\n".join(str(note) for note in notes.notes)
+        return notes_str
 
 
 @input_error

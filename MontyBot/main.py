@@ -24,11 +24,14 @@ def parse_input(user_input) -> str:
         args = ""
     return cmd, *args
 
-def parse_input_for_note(user_input: str) -> tuple:
-    user_input = user_input.strip().lower()
-    parts = user_input.split(" ", maxsplit=1)
-    cmd = parts[0]  
-    args = parts[1:] if len(parts) > 1 else ""
+
+def parse_input_for_note(user_input: str) -> tuple[str, str]:
+    try:
+        cmd, args = user_input.split(" ", maxsplit=1)
+        cmd = cmd.strip().lower()
+    except ValueError:
+        cmd = ""
+        args = ""
     return cmd, args
 
 
@@ -49,7 +52,7 @@ def main():
     while True:
         user_input = prompt("\nEnter a command:> ",
                             completer=words, complete_while_typing=True)
-        if user_input.startwith("add-note"):
+        if user_input.lower().startswith("add-note"):
             command, args = parse_input_for_note(user_input)
         else:
             command, *args = parse_input(user_input)

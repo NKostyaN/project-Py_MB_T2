@@ -5,4 +5,4 @@ class Note():
         self.tags = tags
 
     def __str__(self):
-        return f"Title: {str(self.title)}\nText: {str(self.text)}\nTags: {', '.join(self.tags)}"
+        return f"Title: {str(self.title)}\nText: {str(self.text)}\nTags: {list(self.tags)}"
