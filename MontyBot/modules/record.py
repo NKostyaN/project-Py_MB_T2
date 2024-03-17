@@ -19,9 +19,9 @@ try:
 except ImportError:
     from address import Address
 try:
-    from MontyBot.helpers.monty_utils import highlight
+    from MontyBot.helpers.monty_utils import yellow, cyan
 except ImportError:
-    from helpers.monty_utils import highlight
+    from helpers.monty_utils import yellow, cyan
 
 
 
@@ -34,13 +34,13 @@ class Record:
         self.address = "None"
 
     def __str__(self):
-        res = f"{highlight(self.name)}, phones: {highlight('; '.join(str(p) for p in self.phones))}"
+        res = f"\n--- {yellow(self.name)} ---\nphones: {cyan('; '.join(str(p) for p in self.phones))}\n"
         if str(self.birthday) != "None":
-            res = res + f", birthday: {highlight(self.birthday)}"
+            res += f"birthday: {cyan(self.birthday)}\n"
         if str(self.email) != "None":
-            res = res + f", email: {highlight(self.email)}"
+            res += f"email: {cyan(self.email)}\n"
         if str(self.address) != "None":
-            res = res + f", Address: {highlight(self.address)}"
+            res += f"address: {self.address}\n"
         return res
 
     def phones_list(self):
@@ -89,4 +89,3 @@ class Record:
             "address": str(self.address),
         }
     
-

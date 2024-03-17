@@ -1,7 +1,7 @@
 try:
-    from MontyBot.helpers.monty_utils import highlight, show_help
+    from MontyBot.helpers.monty_utils import yellow, cyan, show_help
 except ImportError:
-    from helpers.monty_utils import highlight, show_help
+    from helpers.monty_utils import yellow, cyan, show_help
 try:
     from MontyBot.helpers.monty_data_handler import load_from_json, save_to_json
 except ImportError:
@@ -12,9 +12,13 @@ except ImportError:
     from modules import monty_assistant as bot
 from prompt_toolkit import prompt
 from prompt_toolkit.completion import WordCompleter
+from prompt_toolkit.cursor_shapes import CursorShape
 
 import os
-os.system("")
+import sys
+
+if sys.platform.lower() == "win32": 
+    os.system("color")
 
 
 
@@ -41,20 +45,20 @@ def main():
     notes = load_from_json("MontyBot_notes.json", "notebook")
     dirty = False
 
-    print("\nWelcome to the assistant bot!")
+    print(f"\nWelcome to the assistant bot!\n")
     while True:
-        user_input = prompt("\nEnter a command:> ", completer = words, complete_while_typing = True)
+        user_input = prompt("Enter a command:->", completer = words, complete_while_typing = True)
         command, *args = parse_input(user_input)
 
         if command in ["close", "exit", "quit", "bye"]:
             if dirty:
                 save_to_json(book.to_json(), "MontyBot_phonebook.json")
                 save_to_json(notes.to_json(), "MontyBot_notes.json")
-            print("Good bye!")
+            print("\nGood bye!")
             break
 
         elif command in ["hello", "hi"]:
-            print(f"Hello, my name is {highlight("Monty")}. How can I help you?")
+            print(f"\nHello, my name is {cyan("Monty")}. How can I help you?")
 
         elif command == "add":
             dirty = True
@@ -144,7 +148,7 @@ def main():
         
         else:
             print(
-                f"Invalid command. Use {highlight("help")} or {highlight("?")} to see all available commands."
+                f"\nInvalid command. Use {yellow("help")} or {yellow("?")} to see all available commands."
             )
 
 

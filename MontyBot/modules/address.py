@@ -1,8 +1,8 @@
 import re
 try:
-    from MontyBot.helpers.monty_utils import highlight
+    from MontyBot.helpers.monty_utils import cyan
 except ImportError:
-    from helpers.monty_utils import highlight
+    from helpers.monty_utils import cyan
    
 class Address:
     def __init__(self, address:str):
@@ -19,7 +19,7 @@ class Address:
         parts = re.split(r',\s*|\s+', self.address)
         if len(parts) == 4:
             country, city, street, apartment = parts
-            return f"Country: {highlight(country)}, City: {highlight(city)}, Street: {highlight(street)}, Apartment: {highlight(apartment)}"
+            return f"Country: {cyan(country)}, City: {cyan(city)}, Street: {cyan(street)}, Apartment: {cyan(apartment)}"
         else:
-            return f"{highlight(self.address)}"
+            return f"{cyan(self.address)}"
             

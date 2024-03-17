@@ -2,60 +2,36 @@ from datetime import datetime, timedelta
 import re
 
 
-def highlight(txt: str) -> str:
+def cyan(txt: str) -> str:
+    """Return text in cyan color"""
     return f"\033[96m{txt}\x1b[0m"          # cyan
 
+def yellow(txt: str) -> str:
+    """Return text if yellow color"""
+    return f"\033[93m{txt}\x1b[0m"          # yellow
+
 def warning(txt: str) -> str:
+    """Return text in red color"""
     return f"\033[91m{txt}\x1b[0m"          # red
 
 def info(txt: str) -> str:
-    return f"\33[90m{txt}\x1b[0m"          # grey
+    """Return text in grey color"""
+    return f"\33[90m{txt}\x1b[0m"           # grey
 
 def error(txt: str) -> str:
+    """Return text with background in red color"""
     return f"\033[41m{txt}\x1b[0m"          # red background
 
 def check_phone(phone: str) -> str:
+    """Return corrected phone number"""
     extract = re.findall(r'\d+', phone)
     phone = ""
     for line in extract:
         phone += line
     return phone
 
-def show_help() -> str:
-    help = (
-        "\nAvailable commands:\n"
-        f"{highlight("<add> [username] [phone]")} - adding contact to the phonebook or adding new phone to existing contact\n"
-        f"{highlight("<add-email> [username] [email]")} - adding e-mail of contact\n"
-        f"{highlight("<add-birthday> [username] [birthday]")} - adding birthday of contact in {highlight("DD.MM.YYYY")} format\n"
-        f"{highlight("<add-address> [username]")} - adding address of contact\n"
-        f"{highlight("<add-note> [title] [note]")} - adding [note] with [title]\n"
-        f"{highlight("<edit> [username] [old phone] [new phone]")} - changing contact in the phonebook\n"
-        f"{highlight("<edit-email> [username] [new email]")} - changing e-mail of contact\n"
-        f"{highlight("<edit-birthday> [username] [birthday]")} - changing birthday of contact in {highlight("DD.MM.YYYY")} format\n"
-        f"{highlight("<edit-note> [title] [note]")} - changing [note] with [title]\n"
-        f"{highlight("<rename> [username] [new phone]")} - rename contact in the phonebook\n"
-        f"{highlight("<show-email> [username]")} - show email of contact\n"
-        f"{highlight("<show-birthday> [username]")} - show birthday of the contact\n"
-        f"{highlight("<find-contact> [username]")} - show all information of contact\n"
-        f"{highlight("<find-phone> [phone]")} - show all contacts with [phone]\n"
-        f"{highlight("<find-email> [email]")} - show all contacts with [email]\n"
-        f"{highlight("<find-address> [email]")} - show all contacts with [email]\n"
-        f"{highlight("<find-note> [title]")} - show note with [title]\n"
-        f"{highlight("<remove> [username]")} - remove contact from phonebook\n"
-        f"{highlight("<remove-phone> [username] [phone]")} - remove phone from contact\n"
-        f"{highlight("<remove-note> [title]")} - remove note with [title]\n"
-        f"{highlight("<birthdays>")} - show all contacts with birthdays on next week\n"
-        f"{highlight("<birthdays> [days]")} - show all contacts with birthdays during next [days] days\n"
-        f"{highlight("<all>")} - show all contacts in phonebook\n"
-        f"{highlight("<all-notes>")} - show all notes\n"
-        f"{highlight("<close>")}, {highlight("<exit>")}, {highlight("<quit>")}, {highlight("<bye>")} - close application\n"
-        f"{highlight("<hello>")}, {highlight("<hi>")} - just a greeting\n"
-        f"{highlight("<help>")}, {highlight("<?>")} - this help"
-    )
-    return help
-
-
 def check_date(date_str: str) -> str:
+    """Check is date was entered in correct format"""
     date_format = "%d.%m.%Y"
     date = ""
     try:
@@ -63,8 +39,7 @@ def check_date(date_str: str) -> str:
         return date
     except Exception as e:
         print(f"{warning(f"Error in {check_date.__name__}:")} {e}")
-        print(f"Use {highlight("DD.MM.YYYY")} format please\n")
-
+        print(f"Use {cyan("DD.MM.YYYY")} format please\n")
 
 def validate_email(email_str: str) -> str:
     pattern = r'^[\w\.-]+@[\w\.-]+\.\w+$'
@@ -77,9 +52,9 @@ def check_email(email_str: str) -> str:
         return validated_email 
     except Exception as e:
         return None  
-    
 
 def get_birthdays_per_week(users: list, during_days=7) -> str:
+    """Check is there is someone to congratulate in next week or in next [during_days]"""
     today = datetime.today().date()
     weekdays = {
         "Monday": [],
@@ -94,10 +69,10 @@ def get_birthdays_per_week(users: list, during_days=7) -> str:
         for usr in users:
             for key in usr.keys():
                 name = key
-                bday = datetime.strptime(usr[key], "%d.%m.%Y").date()
+                bday = datetime.strptime(usr[key], "%d.%m.%Y").date() 
             bday_this_year = bday.replace(year=today.year)
 
-            if bday_this_year < today:
+            if bday_this_year < today:                                  
                 if bday_this_year.weekday() < 5 or (
                     today.weekday() != 0 and today.weekday() != 6
                 ):
@@ -119,13 +94,48 @@ def get_birthdays_per_week(users: list, during_days=7) -> str:
                 bdays.update({k: v})
         if bdays != {}:
             for k, v in bdays.items():
-                print(f"{highlight(str(k))}: {", ".join(v)}")
+                print(f"{cyan(str(k))}: {", ".join(v)}")
         else:
             print("There is no one to congratulate during the week" if during_days == 7 else f"There is no one to congratulate during {during_days} days")
 
     except TypeError:
         print(error("Something wrong in input data, pls check it"))
 
+
+def show_help() -> str:
+    """Shows list of all available commands"""
+    help = (
+        f"\n {"-"*10} Available commands {"-"*10}\n"
+        f"  {yellow("add")} {cyan("[username] [phone]")} - adding contact to the phonebook or adding new phone to existing contact\n"
+        f"  {yellow("add-email")} {cyan("[username] [email]")} - adding e-mail of contact\n"
+        f"  {yellow("add-birthday")} {cyan("[username] [birthday]")} - adding birthday of contact in {cyan("DD.MM.YYYY")} format\n"
+        f"  {yellow("add-address")} {cyan("[username]")} - adding address of contact\n"
+        f"  {yellow("add-note")} {cyan("[title] [note]")} - adding [note] with [title]\n"
+        f"  {yellow("edit")} {cyan("[username] [old phone] [new phone]")} - changing contact in the phonebook\n"
+        f"  {yellow("edit-email")} {cyan("[username] [new email]")} - changing e-mail of contact\n"
+        f"  {yellow("edit-birthday")} {cyan("[username] [birthday]")} - changing birthday of contact in {cyan("DD.MM.YYYY")} format\n"
+        f"  {yellow("edit-note")} {cyan("[title] [note]")} - changing [note] with [title]\n"
+        f"  {yellow("rename")} {cyan("[username] [new phone]")} - rename contact in the phonebook\n"
+        f"  {yellow("show-email")} {cyan("[username]")} - show email of contact\n"
+        f"  {yellow("show-birthday")} {cyan("[username]")} - show birthday of the contact\n"
+        f"  {yellow("find-contact")} {cyan("[username]")} - show all information of contact\n"
+        f"  {yellow("find-phone")} {cyan("[phone]")} - show all contacts with [phone]\n"
+        f"  {yellow("find-email")} {cyan("[email]")} - show all contacts with [email]\n"
+        f"  {yellow("find-address")} {cyan("[email]")} - show all contacts with [email]\n"
+        f"  {yellow("find-note")} {cyan("[title]")} - show note with [title]\n"
+        f"  {yellow("remove")} {cyan("[username]")} - remove contact from phonebook\n"
+        f"  {yellow("remove-phone")} {cyan("[username] [phone]")} - remove phone from contact\n"
+        f"  {yellow("remove-note")} {cyan("[title]")} - remove note with [title]\n"
+        f"  {yellow("birthdays")} - show all contacts with birthdays on next week\n"
+        f"  {yellow("birthdays")} {cyan("[days]")} - show all contacts with birthdays during next [days] days\n"
+        f"  {yellow("all")} - show all contacts in phonebook\n"
+        f"  {yellow("all-notes")} - show all notes\n"
+        f"  {yellow("close")}, {yellow("exit")}, {yellow("quit")}, {yellow("bye")} - close application\n"
+        f"  {yellow("hello")}, {yellow("hi")} - just a greeting\n"
+        f"  {yellow("help")}, {yellow("?")} - this help\n"
+        f"{"-"*40}"
+    )
+    return help
 
 
 if __name__ == "__main__":
