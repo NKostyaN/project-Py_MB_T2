@@ -188,7 +188,7 @@ def add_birthday(args, book: AddressBook) -> str:
     
 
 @input_error
-def add_address(args, book: AddressBook) -> str:
+def add_address(args, book: AddressBook) -> str:   # adding address to AddressBook
     name = args[0]
     address = " ".join(args[1:]) 
     if not address:
@@ -272,7 +272,7 @@ def birthdays(args, book: AddressBook) -> str:
 
 
 @input_error
-def find_address(args, book: AddressBook) -> str:
+def find_address(args, book: AddressBook) -> str:  # finding address by name
     name = args[0]
     rec = book.find(name)
     if rec:

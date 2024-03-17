@@ -16,7 +16,8 @@ class Address:
 
 
     def __str__(self):
-        parts = re.split(r',\s*|\s+', self.address)
+        parts = re.split(r',\s*|\s+', self.address) # split parameters by comma or gap
+        """we need to divide address by four parts"""
         if len(parts) == 4:
             country, city, street, apartment = parts
             return f"Country: {cyan(country)}, City: {cyan(city)}, Street: {cyan(street)}, Apartment: {cyan(apartment)}"
