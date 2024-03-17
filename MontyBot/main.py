@@ -144,8 +144,7 @@ def main():
         
         else:
             print(
-                f"Invalid command. Use {highlight("help")} or {
-                    highlight("?")} to see all available commands."
+                f"Invalid command. Use {highlight("help")} or {highlight("?")} to see all available commands."
             )
 
 

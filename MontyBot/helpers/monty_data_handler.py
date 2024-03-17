@@ -60,8 +60,8 @@ def load_from_json(filename, key="phonebook") -> AddressBook:
 
 
 def save_to_json(data: dict, filename):
-    with open(Path.home() / filename, "w", encoding="utf-8") as f:                # use user path
-    # with open(filename, "w", encoding="utf-8") as f:                                # use local path
+    with open(Path.home() / filename, "w", encoding="utf-8") as f:                  # use user path
+    # with open(filename, "w", encoding="utf-8") as f:                              # use local path
         json.dump(data, f, ensure_ascii=False, indent=4)
 
 
