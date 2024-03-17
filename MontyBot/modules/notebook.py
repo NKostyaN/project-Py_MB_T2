@@ -15,12 +15,12 @@ class NoteBook:
             if i.title == title:
                 i.text = new_text
 
-    def remove_note(self, title: str):
+    def remove_note(self, title: str):                 
         for i in self.notes:
             if i.title == title:
                 self.notes.remove(i)
 
-    def find_by_title(self, title: str) -> Note:
+    def find_by_title(self, title: str) -> Note:      # find note by title
         for note in self.notes:
             if title in note.title:
                 return note

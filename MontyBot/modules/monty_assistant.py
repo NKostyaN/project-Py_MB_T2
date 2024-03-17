@@ -15,7 +15,6 @@ try:
 except ImportError:
     from notebook import NoteBook
 
-    
 
 def input_error(func) -> str:
     def inner(*args, **kwargs):
@@ -24,12 +23,15 @@ def input_error(func) -> str:
         except Exception as e:
             error_string = f"{warning(f"Error in {func.__name__}:")} {e}\n"
             if str(func.__name__) == "add_contact":
-                error_string += f"Wrong arguments count, pls use {yellow("add")} {cyan("[username] [phone]")}."
+                error_string += f"Wrong arguments count, pls use {
+                    yellow("add")} {cyan("[username] [phone]")}."
             elif str(func.__name__) == "edit_contact":
-                error_string += f"Wrong arguments count, pls use {yellow("edit")} {cyan("[username] [old phone] [new phone]")}."
+                error_string += f"Wrong arguments count, pls use {
+                    yellow("edit")} {cyan("[username] [old phone] [new phone]")}."
             elif str(func.__name__) == "show_phone":
                 error_string += (
-                    f"Wrong arguments count, pls use {cyan("phone [username]")}."
+                    f"Wrong arguments count, pls use {
+                        cyan("phone [username]")}."
                 )
             return error_string
 
@@ -131,7 +133,7 @@ def find_phone(args, book: AddressBook) -> str:
 
 
 @input_error
-def find_email(args, book: AddressBook) -> str:       # find email 
+def find_email(args, book: AddressBook) -> str:       # find email
     email = args[0]
     email = check_email(email)
     finded = []
@@ -145,18 +147,8 @@ def find_email(args, book: AddressBook) -> str:       # find email
         return res
     else:
         return f"Email {cyan(email)} not found"
-    
 
-@input_error
-def find_note(args, notes: NoteBook) -> str:
-    title = args[0]
-    for item in notes:
-        if title == item.title:
-            return item.title, item.text
-        else:
-            return f"Note {title} not found"
-    
-    
+
 @input_error
 def remove_phone(args, book: AddressBook) -> str:
     name, phone = args
@@ -185,20 +177,20 @@ def add_birthday(args, book: AddressBook) -> str:
             return ""
     else:
         return f"Contact {yellow(name)} does not exist. Check your spelling."
-    
+
 
 @input_error
 def add_address(args, book: AddressBook) -> str:   # adding address to AddressBook
     name = args[0]
-    address = " ".join(args[1:]) 
+    address = " ".join(args[1:])
     if not address:
         return "Please provide a valid address."
     rec = book.find(name)
     if rec:
         rec.add_address(address)
         return f"Address added to contact {yellow(name)}."
-    
-    
+
+
 @input_error
 def edit_birthday(args, book: AddressBook) -> str:
     name, bday = args
@@ -267,7 +259,7 @@ def birthdays(args, book: AddressBook) -> str:
     phonebook = []
     for name in book.keys():
         if str(book.get(name).birthday) != "None":
-            phonebook.append({name : str(book.get(name).birthday)})
+            phonebook.append({name: str(book.get(name).birthday)})
     return get_birthdays_per_week(phonebook, days)
 
 
@@ -283,8 +275,13 @@ def find_address(args, book: AddressBook) -> str:  # finding address by name
     else:
         return f"Contact {yellow(name)} does not exist."
 
+
 @input_error
 def add_note(args, notes: NoteBook) -> str:
+    """
+    Generates a new note in the given NoteBook object 
+    if the note title does not already exist.
+    """
     title = args[0]
     text = " ".join(args[1:])
     if notes.find_by_title(title):
@@ -296,6 +293,7 @@ def add_note(args, notes: NoteBook) -> str:
 
 @input_error
 def edit_note(args, notes: NoteBook) -> str:
+    """Edit a note in the notebook."""
     title = args[0]
     new_text = " ".join(args[1:])
     if notes.find_by_title(title):
@@ -306,6 +304,7 @@ def edit_note(args, notes: NoteBook) -> str:
 
 
 def remove_note(args, notes: NoteBook) -> str:
+    """Remove a note from the given NoteBook by title."""
     title = args[0]
     if notes.find_by_title(title):
         notes.remove_note(title)
@@ -316,6 +315,7 @@ def remove_note(args, notes: NoteBook) -> str:
 
 @input_error
 def find_note(args, notes: NoteBook) -> str:
+    """A function to find a note by title in a given NoteBook."""
     title = args[0]
     res = notes.find_by_title(title)
     if res:
@@ -330,19 +330,26 @@ def show_all_contacts(book: AddressBook) -> str:
     for name in book.keys():
         rec = book.get(name)
         phones = f"\nphones: {cyan(rec.phones_list())}"
-        bday = f"\nbirthday: {cyan(rec.birthday)}" if str(rec.birthday) != "None" else ""
-        user_email = f"\nemail: {cyan(rec.email)}" if str(rec.email) != "None" else ""
+        bday = f"\nbirthday: {cyan(rec.birthday)}" if str(
+            rec.birthday) != "None" else ""
+        user_email = f"\nemail: {cyan(rec.email)}" if str(
+            rec.email) != "None" else ""
         adr = f"\naddress: {rec.address}" if str(rec.address) != "None" else ""
-        phonebook += f"\n{"--- "}{yellow(name)} {"-"*40}{phones}{bday}{user_email}{adr}\n"
+        phonebook += f"\n{"--- "}{yellow(name)} {"-" *
+                                                 40}{phones}{bday}{user_email}{adr}\n"
     phonebook += f"{"-"*40}\n"
     if phonebook == "":
         return "Phonebook is empty."
     else:
         return phonebook
-    
+
 
 @input_error
 def show_all_notes(notes: NoteBook) -> str:
+    """
+    A function that takes a NoteBook object as input 
+    and generates a string containing all notes with formatting.
+    """
     res = ""
     for note in notes.notes:
         res += f"\n{"--- "}{yellow(note.title)} ---\n{note.text}\n"
