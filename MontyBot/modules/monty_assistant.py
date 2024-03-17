@@ -298,7 +298,7 @@ def find_address(args, book: AddressBook) -> str:
 def add_note(args, notes: NoteBook) -> str:
     if len(args) < 2:
         raise ValueError("Invalid input format for adding a note.")
-    title, rest = args[1].split(";", 1)
+    title, rest = args[1].strip().split(";", 1)
     if not (text := rest.split(";", 1)[0]).strip():
         raise ValueError("Invalid input format for adding a note.")
     tags_list = [tag.strip() for tag in rest.split(";", 1)[1].split(",")]
@@ -348,15 +348,15 @@ def show_all_notes(notes: NoteBook) -> str:
 
 
 @input_error
-def search_notes_by_tag(self, tag):                # add new function for tags
-    found_notes = []
-    for note in self.notes:
-        if tag in note.tags:
-            found_notes.append(note)
-    return found_notes
+def search_notes_by_tag(notes: NoteBook, tag):                # add new function for tags
+    res = notes.search_notes_by_tag(tag)
+    if res:
+        return str(res.text)
+    else:
+        return f"Note with title {highlight(tag)} not found."
 
 
 @input_error
-def sort_notes_by_tag(self, tag):                 # add new function for tags
-    sorted_notes = sorted(self.notes, key=lambda x: tag in x.tags)
-    return sorted_notes
+def sort_notes_by_tag(notes: NoteBook, tag):                  # add new function for tags
+    res = notes.sort_notes_by_tag(tag) 
+    return str(res.text)        
