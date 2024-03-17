@@ -18,7 +18,7 @@ class AddressBook(UserDict):
     def find(self, name: str) -> Record:
         return self.data.get(name)
 
-    def to_json(self) -> dict:
+    def to_json(self) -> dict:                                          # format for json
         res = {}
         for key in self.data.keys():
             res.update({key: self.data.get(key).to_json()})

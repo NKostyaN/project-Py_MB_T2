@@ -131,7 +131,7 @@ def find_phone(args, book: AddressBook) -> str:
 
 
 @input_error
-def find_email(args, book: AddressBook) -> str:
+def find_email(args, book: AddressBook) -> str:       # find email 
     email = args[0]
     email = check_email(email)
     finded = []
@@ -215,7 +215,7 @@ def edit_birthday(args, book: AddressBook) -> str:
 
 
 @input_error
-def add_email(args, book: AddressBook) -> str:
+def add_email(args, book: AddressBook) -> str:            # add new email
     name, email = args
     rec = book.find(name)
     if rec:
@@ -229,7 +229,7 @@ def add_email(args, book: AddressBook) -> str:
 
 
 @input_error
-def edit_email(args, book: AddressBook) -> str:
+def edit_email(args, book: AddressBook) -> str:          # change user's email
     name, email_new = args
     rec = book.find(name)
     if rec:
@@ -251,7 +251,7 @@ def show_birthday(args, book: AddressBook) -> str:
 
 
 @input_error
-def show_email(args, book: AddressBook) -> str:
+def show_email(args, book: AddressBook) -> str:          # show email of user
     name = args[0]
     rec = book.find(name)
     if rec:

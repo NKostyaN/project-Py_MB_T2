@@ -41,8 +41,8 @@ def main():
                            "birthdays", "show-birthday", "show-email",
                            "all", "all-notes", "help", "?"])
     
-    book = load_from_json("MontyBot_phonebook.json", "phonebook")
-    notes = load_from_json("MontyBot_notes.json", "notebook")
+    book = load_from_json("MontyBot_phonebook.json", "phonebook")          # load addressbook from json-file
+    notes = load_from_json("MontyBot_notes.json", "notebook")              # load notes from json-file
     dirty = False
 
     print(f"\nWelcome to the assistant bot!\n")
@@ -52,8 +52,8 @@ def main():
 
         if command in ["close", "exit", "quit", "bye"]:
             if dirty:
-                save_to_json(book.to_json(), "MontyBot_phonebook.json")
-                save_to_json(notes.to_json(), "MontyBot_notes.json")
+                save_to_json(book.to_json(), "MontyBot_phonebook.json")   # save addressbook
+                save_to_json(notes.to_json(), "MontyBot_notes.json")      # save notes
             print("\nGood bye!")
             break
 
