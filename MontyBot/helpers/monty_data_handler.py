@@ -19,7 +19,7 @@ except ImportError:
 
 
 
-def load_from_json(filename, key="phonebook") -> AddressBook:
+def load_from_json(filename, key="phonebook"):
     if key == "phonebook":                                                           # load addressbook
         phonebook = AddressBook()
         try:
@@ -51,7 +51,7 @@ def load_from_json(filename, key="phonebook") -> AddressBook:
                 data = json.load(f)
                 if data != "":
                    for key, value in data.items():
-                       notes.add_note(key, value)
+                       notes.add_note(key, value[0], value[1])
                 else:
                     Log.empty(filename)
         except FileNotFoundError:
@@ -68,12 +68,8 @@ def save_to_json(data: dict, filename):                                         
 class Log:                                                                          # messages no file or empty file
     @classmethod
     def empty(cls, filename):
-        file_name = str(filename)
-        str_info = "[INFO]: " + file_name + " file found, but it's empty for now."
-        return print(f"{info(str_info)}")
+        return print(f"{info("[INFO]: " + str(filename) + " file found, but it's empty for now.")}")
     
     @classmethod
     def not_found(cls, filename):
-        file_name = str(filename)
-        str_info = "[INFO]: " + file_name + " file not found, but don't worry, I'll create a new one for you."
-        return print(f"{info(str_info)}")
+        return print(f"{info("[INFO]: " + str(filename) + " file not found, but don't worry, I'll create a new one for you.")}")

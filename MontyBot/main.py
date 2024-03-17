@@ -12,7 +12,6 @@ except ImportError:
     from modules import monty_assistant as bot
 from prompt_toolkit import prompt
 from prompt_toolkit.completion import WordCompleter
-from prompt_toolkit.cursor_shapes import CursorShape
 
 import os
 import sys
@@ -23,6 +22,7 @@ if sys.platform.lower() == "win32":
 
 
 def parse_input(user_input) -> str:
+    """Persing user input. Return <command> and [arguments]"""
     try:
         cmd, *args = user_input.split()
         cmd = cmd.strip().lower()
@@ -36,14 +36,15 @@ def main():
     words = WordCompleter(["hello", "hi", "close", "exit", "quit", "bye", "add",
                            "add-birthday", "add-address", "add-email", "add-note",
                            "edit", "edit-birthday", "edit-email", "edit-note",
-                           "find-contact", "find-phone", "find-email", "find-address", "find-note",
+                           "find-contact", "find-phone", "find-email",
+                           "find-address", "find-note", "find-tags",
                            "rename", "remove", "remove-phone", "remove-note",
                            "birthdays", "show-birthday", "show-email",
-                           "all", "all-notes", "help", "?"])
+                           "all", "all-notes", "help", "?"])                        # collection of words for autocomplete input
     
-    book = load_from_json("MontyBot_phonebook.json", "phonebook")          # load addressbook from json-file
-    notes = load_from_json("MontyBot_notes.json", "notebook")              # load notes from json-file
-    dirty = False
+    book = load_from_json("MontyBot_phonebook.json", "phonebook")                   # load addressbook from json-file
+    notes = load_from_json("MontyBot_notes.json", "notebook")                       # load notes from json-file
+    dirty = False                                                                   # dirty - flag to determine if save to file needed
 
     print(f"\nWelcome to the assistant bot!\n")
     while True:
@@ -138,9 +139,11 @@ def main():
 
         elif command == "find-note":
             print(bot.find_note(args, notes))
+        
+        elif command == "find-tags":
+            print(bot.find_tags(args, notes))
 
         elif command == "all-notes":
-            dirty = True
             print(bot.show_all_notes(notes))
 
         elif command in ["help", "?"]:
@@ -148,7 +151,7 @@ def main():
         
         else:
             print(
-                f"\nInvalid command. Use {yellow("help")} or {yellow("?")} to see all available commands."
+                f"\nInvalid command. Use {yellow("help")} or {yellow("?")} to see all available commands.\n"
             )
 
 

@@ -54,7 +54,7 @@ def check_email(email_str: str) -> str:                # email-format validation
         return None  
 
 def get_birthdays_per_week(users: list, during_days=7) -> str:
-    """Check is there is someone to congratulate in next week or in next [during_days]"""
+    """Check is there is someone to congratulate in next week or in next [during_days] days"""
     today = datetime.today().date()
     weekdays = {
         "Monday": [],
@@ -123,6 +123,7 @@ def show_help() -> str:
         f"  {yellow("find-email")} {cyan("[email]")} - show all contacts with [email]\n"
         f"  {yellow("find-address")} {cyan("[email]")} - show all contacts with [email]\n"
         f"  {yellow("find-note")} {cyan("[title]")} - show note with [title]\n"
+        f"  {yellow("find-tags")} {cyan("[tags]")} - show all notes with [tags]\n"
         f"  {yellow("remove")} {cyan("[username]")} - remove contact from phonebook\n"
         f"  {yellow("remove-phone")} {cyan("[username] [phone]")} - remove phone from contact\n"
         f"  {yellow("remove-note")} {cyan("[title]")} - remove note with [title]\n"
