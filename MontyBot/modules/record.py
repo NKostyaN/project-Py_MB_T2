@@ -60,7 +60,7 @@ class Record:
             if phone == old_phone:
                 phone.set_phone(new_phone)
     
-    def edit_email(self, email: str):
+    def edit_email(self, email: str):                     # change email from addressbook
         self.email = Email(email)
 
     def remove_phone(self, phone: str):
@@ -71,13 +71,13 @@ class Record:
     def add_birthday(self, birthday) -> str:
         self.birthday = Birthday(birthday)
     
-    def add_email(self, email) -> str:
+    def add_email(self, email) -> str:                    # new email from addressbook
         self.email = Email(email)
 
     def add_address(self, address) -> str:
         self.address = Address(address)
 
-    def to_json(self) -> dict:
+    def to_json(self) -> dict:                           # convers records for json
         phones = []
         for item in self.phones:
             phones.append(str(item))

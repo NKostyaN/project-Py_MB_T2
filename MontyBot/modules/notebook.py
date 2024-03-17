@@ -25,7 +25,7 @@ class NoteBook:
             if title in note.title:
                 return note
             
-    def to_json(self) -> dict:
+    def to_json(self) -> dict:                        # convert data for json
         res = {}
         for item in self.notes:
             res.update({item.title: item.text})

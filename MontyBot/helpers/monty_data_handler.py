@@ -20,7 +20,7 @@ except ImportError:
 
 
 def load_from_json(filename, key="phonebook") -> AddressBook:
-    if key == "phonebook":
+    if key == "phonebook":                                                           # load addressbook
         phonebook = AddressBook()
         try:
             with open(Path.home() / filename, "r", encoding="utf-8 ") as f:          # use user path
@@ -43,7 +43,7 @@ def load_from_json(filename, key="phonebook") -> AddressBook:
         except FileNotFoundError:
             Log.not_found(filename)
         return phonebook
-    else:
+    else:                                                                            # load notes
         notes = NoteBook()  
         try:
             with open(Path.home() / filename, "r", encoding="utf-8 ") as f:          # use user path
@@ -59,13 +59,13 @@ def load_from_json(filename, key="phonebook") -> AddressBook:
         return notes
 
 
-def save_to_json(data: dict, filename):
+def save_to_json(data: dict, filename):                                             # save addressbook or notes
     with open(Path.home() / filename, "w", encoding="utf-8") as f:                  # use user path
     # with open(filename, "w", encoding="utf-8") as f:                              # use local path
         json.dump(data, f, ensure_ascii=False, indent=4)
 
 
-class Log:
+class Log:                                                                          # messages no file or empty file
     @classmethod
     def empty(cls, filename):
         file_name = str(filename)

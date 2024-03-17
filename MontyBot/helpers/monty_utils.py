@@ -41,12 +41,12 @@ def check_date(date_str: str) -> str:
         print(f"{warning(f"Error in {check_date.__name__}:")} {e}")
         print(f"Use {cyan("DD.MM.YYYY")} format please\n")
 
-def validate_email(email_str: str) -> str:
+def validate_email(email_str: str) -> str:             # re-pattern for email validation 
     pattern = r'^[\w\.-]+@[\w\.-]+\.\w+$'
     if re.match(pattern, email_str):
         return email_str
 
-def check_email(email_str: str) -> str:
+def check_email(email_str: str) -> str:                # email-format validation 
     try:
         validated_email = validate_email(email_str)
         return validated_email 
