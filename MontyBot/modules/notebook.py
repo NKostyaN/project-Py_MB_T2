@@ -18,11 +18,13 @@ class NoteBook:
                 self.notes.remove(i)
 
     def find_by_title(self, title: str) -> Note:
+        """A function that searches for a note by its title in a list of notes."""
         for note in self.notes:
             if title in note.title:
                 return note
             
     def to_json(self) -> dict:
+        """Converts the notes stored in the object to a JSON dictionary."""
         res = {}
         for item in self.notes:
             res.update({item.title: item.text})

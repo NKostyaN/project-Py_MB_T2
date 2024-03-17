@@ -15,7 +15,6 @@ try:
 except ImportError:
     from notebook import NoteBook
 
-    
 
 def input_error(func) -> str:
     def inner(*args, **kwargs):
@@ -148,18 +147,8 @@ def find_email(args, book: AddressBook) -> str:
         return res
     else:
         return f"Email {email} not found"
-    
 
-@input_error
-def find_note(args, notes: NoteBook) -> str:
-    title = args[0]
-    for item in notes:
-        if title == item.title:
-            return item.title, item.text
-        else:
-            return f"Note {title} not found"
-    
-    
+
 @input_error
 def remove_phone(args, book: AddressBook) -> str:
     name, phone = args
@@ -188,20 +177,20 @@ def add_birthday(args, book: AddressBook) -> str:
             return ""
     else:
         return f"Contact {highlight(name)} does not exist. Check your spelling."
-    
+
 
 @input_error
 def add_address(args, book: AddressBook) -> str:
     name = args[0]
-    address = " ".join(args[1:]) 
+    address = " ".join(args[1:])
     if not address:
         return "Please provide a valid address."
     rec = book.find(name)
     if rec:
         rec.add_address(address)
         return f"Address added to contact {highlight(name)}."
-    
-    
+
+
 @input_error
 def edit_birthday(args, book: AddressBook) -> str:
     name, bday = args
@@ -270,7 +259,7 @@ def birthdays(args, book: AddressBook) -> str:
     phonebook = []
     for name in book.keys():
         if str(book.get(name).birthday) != "None":
-            phonebook.append({name : str(book.get(name).birthday)})
+            phonebook.append({name: str(book.get(name).birthday)})
     return get_birthdays_per_week(phonebook, days)
 
 
@@ -279,10 +268,13 @@ def show_all_contacts(book: AddressBook) -> str:
     phonebook = ""
     for name in book.keys():
         rec = book.get(name)
-        bday = f"; birthday: {highlight(rec.birthday)}" if str(rec.birthday) != "None" else ""
-        user_email = f"; email: {highlight(rec.email)}" if str(rec.email) != "None" else ""
+        bday = f"; birthday: {highlight(rec.birthday)}" if str(
+            rec.birthday) != "None" else ""
+        user_email = f"; email: {highlight(rec.email)}" if str(
+            rec.email) != "None" else ""
         adr = f"; address: {rec.address}" if str(rec.address) != "None" else ""
-        phonebook += f"{highlight(name)}, phones: {highlight(rec.phones_list())}{bday}{user_email}{adr}\n"
+        phonebook += f"{highlight(name)}, phones: {highlight(rec.phones_list())}{
+            bday}{user_email}{adr}\n"
     if phonebook == "":
         return "Phonebook is empty."
     else:
@@ -301,8 +293,10 @@ def find_address(args, book: AddressBook) -> str:
     else:
         return f"Contact {highlight(name)} does not exist."
 
+
 @input_error
 def add_note(args, notes: NoteBook) -> str:
+    """Generate a new note with the given title and text."""
     title = args[0]
     text = " ".join(args[1:])
     if notes.find_by_title(title):
@@ -314,6 +308,7 @@ def add_note(args, notes: NoteBook) -> str:
 
 @input_error
 def edit_note(args, notes: NoteBook) -> str:
+    """Edit a note in the given NoteBook."""
     title = args[0]
     new_text = " ".join(args[1:])
     if notes.find_by_title(title):
@@ -324,6 +319,7 @@ def edit_note(args, notes: NoteBook) -> str:
 
 
 def remove_note(args, notes: NoteBook) -> str:
+    """Remove a note from the note book."""
     title = args[0]
     if notes.find_by_title(title):
         notes.remove_note(title)
@@ -334,6 +330,7 @@ def remove_note(args, notes: NoteBook) -> str:
 
 @input_error
 def find_note(args, notes: NoteBook) -> str:
+    """A function that finds a note in a notebook by title."""
     title = args[0]
     res = notes.find_by_title(title)
     if res:
@@ -344,5 +341,6 @@ def find_note(args, notes: NoteBook) -> str:
 
 @input_error
 def show_all_notes(notes: NoteBook) -> str:
+    """A function that takes a NoteBook object and displays all notes within it."""
     for note in notes.notes:
         return f"Title: {highlight(note.title)}\nText: {note.text}\n"
