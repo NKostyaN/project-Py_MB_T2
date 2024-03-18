@@ -331,7 +331,8 @@ def add_note(args, notes: NoteBook) -> str:
     if note:
         return f"Note {yellow(title)} already exist. Use {cyan("edit-note")} instead.\n"
     else:
-        notes.add_note(title, text)
+        notes.add_note(title, text, "")
+        note = notes.find_by_title(title)
         tags_input = str(input("Any tags?:->"))
         if tags_input != "":
             note.tags = tags_input
