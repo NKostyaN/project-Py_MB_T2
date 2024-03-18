@@ -33,7 +33,7 @@ class Record:
         self.address = "None"
 
     def __str__(self):
-        res = f"\n--- {yellow(self.name)} ---\nphones: {cyan('; '.join(str(p) for p in self.phones))}\n"
+        res = f"\n--- {yellow(self.name)} ---\nphones: {cyan(', '.join(str(p) for p in self.phones))}\n"
         if str(self.birthday) != "None":
             res += f"birthday: {cyan(self.birthday)}\n"
         if str(self.email) != "None":
@@ -64,7 +64,7 @@ class Record:
 
     def remove_phone(self, phone: str):
         for item in self.phones:
-            if item.value == phone:
+            if str(item) == phone:
                 self.phones.remove(item)
 
     def add_birthday(self, birthday) -> str:

@@ -34,7 +34,7 @@ def parse_input(user_input) -> str:
 
 def main():
     words = WordCompleter(["hello", "hi", "close", "exit", "quit", "bye", "add",
-                           "add-birthday", "add-address", "add-email", "add-note",
+                           "add-birthday", "add-address", "add-email", "add-note", "add-tags"
                            "edit", "edit-birthday", "edit-email", "edit-note",
                            "find-contact", "find-phone", "find-email",
                            "find-address", "find-note", "find-tags",
@@ -142,6 +142,10 @@ def main():
         
         elif command == "find-tags":
             print(bot.find_tags(args, notes))
+
+        elif command == "add-tags":
+            dirty = True
+            print(bot.add_tags(args, notes))
 
         elif command == "all-notes":
             print(bot.show_all_notes(notes))
