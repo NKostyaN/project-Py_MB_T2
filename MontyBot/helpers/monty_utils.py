@@ -29,7 +29,10 @@ def check_phone(phone: str) -> str:
     phone = ""
     for line in extract:
         phone += line
-    return phone
+    if phone == "":
+        raise ValueError
+    else:
+        return phone
 
 def check_date(date_str: str) -> str:
     """Check is date was entered in correct format"""
