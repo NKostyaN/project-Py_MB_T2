@@ -1,4 +1,5 @@
 from datetime import datetime, timedelta
+from importlib.metadata import version
 import re
 
 
@@ -104,8 +105,12 @@ def get_birthdays_per_week(users: list, during_days=7) -> str:
 
 def show_help() -> str:
     """Shows list of all available commands"""
+    try:
+        ver = f"{info("MontyBot-" + version("MontyBot"))}"
+    except:
+        ver = ""
     help = (
-        f"\n {"-"*10} Available commands {"-"*10}\n"
+        f"{ver}\n {"-"*10} Available commands {"-"*10}\n"
         f"  {yellow("add")} {cyan("[username] [phone]")} - adding contact to the phonebook or adding new phone to existing contact\n"
         f"  {yellow("add-email")} {cyan("[username] [email]")} - adding e-mail of contact\n"
         f"  {yellow("add-birthday")} {cyan("[username] [birthday]")} - adding birthday of contact in {cyan("DD.MM.YYYY")} format\n"

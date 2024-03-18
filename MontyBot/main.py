@@ -16,7 +16,7 @@ from prompt_toolkit.completion import WordCompleter
 import os
 import sys
 
-if sys.platform.lower() == "win32": 
+if sys.platform.lower() == "win32":             # color hack for some windows os
     os.system("color")
 
 
