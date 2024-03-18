@@ -116,6 +116,10 @@ def rename_contact(args, book: AddressBook) -> str:
                 new_rec.add_phone(str(phone))
             if str(rec.birthday) != "None":
                 new_rec.add_birthday(str(rec.birthday))
+            if str(rec.email) != "None":
+                new_rec.add_email(str(rec.email))
+            if str(rec.address) != "None":
+                new_rec.add_address(str(rec.address))
             book.add_record(new_rec)
             book.delete(name)
             return f"Contact {yellow(name)} now have new name {yellow(new_rec.name)}.\n"
@@ -305,17 +309,21 @@ def birthdays(args, book: AddressBook) -> str:
 
 
 @input_error
-def find_address(args, book: AddressBook) -> str:  # finding address by name
-    name = args[0]
-    name = name.capitalize()
-    rec = book.find(name)
-    if rec:
-        if rec.address:
-            return f"Address for {yellow(name)}: {cyan(rec.address)}.\n"
-        else:
-            return f"No address found for {yellow(name)}.\n"
+def find_address(args, book: AddressBook) -> str:  # finding contacts with some address
+    address = args
+    found = []
+    for key, rec in book.items():
+        for item in address:
+            if item in str(rec.address):
+                if not (rec in found):
+                    found.append(rec)
+    if found:
+        res = ""
+        for item in found:
+            res += f"{str(item)}"
+        return res
     else:
-        return f"Contact {yellow(name)} does not exist.\n"
+        return f"Address {cyan(address)} not found.\n"
 
 
 @input_error
