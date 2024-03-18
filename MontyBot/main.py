@@ -34,7 +34,7 @@ def parse_input(user_input) -> str:
 
 def main():
     words = WordCompleter(["hello", "hi", "close", "exit", "quit", "bye", "add",
-                           "add-birthday", "add-address", "add-email", "add-note", "add-tags"
+                           "add-birthday", "add-address", "add-email", "add-note", "add-tags",
                            "edit", "edit-birthday", "edit-email", "edit-note",
                            "find-contact", "find-phone", "find-email",
                            "find-address", "find-note", "find-tags",

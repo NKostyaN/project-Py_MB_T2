@@ -2,7 +2,7 @@ from setuptools import setup, find_namespace_packages
 
 setup(
     name="MontyBot",
-    version="0.9",
+    version="1.0",
     description="Personal console assistant",
     url="https://github.com/NKostyaN/project-Py_MB_T2",
     author="Python's Bros",
