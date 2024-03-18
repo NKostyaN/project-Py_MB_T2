@@ -54,7 +54,7 @@ def check_email(email_str: str) -> str:                # email-format validation
         return None  
 
 def get_birthdays_per_week(users: list, during_days=7) -> str:
-    """Check is there is someone to congratulate in next week or in next [during_days]"""
+    """Check is there is someone to congratulate in next week or in next [during_days] days"""
     today = datetime.today().date()
     weekdays = {
         "Monday": [],
@@ -111,6 +111,7 @@ def show_help() -> str:
         f"  {yellow("add-birthday")} {cyan("[username] [birthday]")} - adding birthday of contact in {cyan("DD.MM.YYYY")} format\n"
         f"  {yellow("add-address")} {cyan("[username]")} - adding address of contact\n"
         f"  {yellow("add-note")} {cyan("[title] [note]")} - adding [note] with [title]\n"
+        f"  {yellow("add-tags")} {cyan("[title] [tags]")} - adding [tags] to note with [title]\n"
         f"  {yellow("edit")} {cyan("[username] [old phone] [new phone]")} - changing contact in the phonebook\n"
         f"  {yellow("edit-email")} {cyan("[username] [new email]")} - changing e-mail of contact\n"
         f"  {yellow("edit-birthday")} {cyan("[username] [birthday]")} - changing birthday of contact in {cyan("DD.MM.YYYY")} format\n"
@@ -121,8 +122,9 @@ def show_help() -> str:
         f"  {yellow("find-contact")} {cyan("[username]")} - show all information of contact\n"
         f"  {yellow("find-phone")} {cyan("[phone]")} - show all contacts with [phone]\n"
         f"  {yellow("find-email")} {cyan("[email]")} - show all contacts with [email]\n"
-        f"  {yellow("find-address")} {cyan("[email]")} - show all contacts with [email]\n"
+        f"  {yellow("find-address")} {cyan("[address]")} - show all contacts with [address]\n"
         f"  {yellow("find-note")} {cyan("[title]")} - show note with [title]\n"
+        f"  {yellow("find-tags")} {cyan("[tags]")} - show all notes with [tags]\n"
         f"  {yellow("remove")} {cyan("[username]")} - remove contact from phonebook\n"
         f"  {yellow("remove-phone")} {cyan("[username] [phone]")} - remove phone from contact\n"
         f"  {yellow("remove-note")} {cyan("[title]")} - remove note with [title]\n"

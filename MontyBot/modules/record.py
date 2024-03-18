@@ -24,7 +24,6 @@ except ImportError:
     from helpers.monty_utils import yellow, cyan
 
 
-
 class Record:
     def __init__(self, name: str):
         self.name = Name(name)
@@ -34,7 +33,7 @@ class Record:
         self.address = "None"
 
     def __str__(self):
-        res = f"\n--- {yellow(self.name)} ---\nphones: {cyan('; '.join(str(p) for p in self.phones))}\n"
+        res = f"\n--- {yellow(self.name)} ---\nphones: {cyan(', '.join(str(p) for p in self.phones))}\n"
         if str(self.birthday) != "None":
             res += f"birthday: {cyan(self.birthday)}\n"
         if str(self.email) != "None":
@@ -59,25 +58,25 @@ class Record:
         for phone in self.phones:
             if phone == old_phone:
                 phone.set_phone(new_phone)
-    
-    def edit_email(self, email: str):                     # change email from addressbook
+
+    def edit_email(self, email: str):  # change email from addressbook
         self.email = Email(email)
 
     def remove_phone(self, phone: str):
         for item in self.phones:
-            if item.value == phone:
+            if str(item) == phone:
                 self.phones.remove(item)
 
     def add_birthday(self, birthday) -> str:
         self.birthday = Birthday(birthday)
-    
-    def add_email(self, email) -> str:                    # new email from addressbook
+
+    def add_email(self, email) -> str:  # new email from addressbook
         self.email = Email(email)
 
     def add_address(self, address) -> str:
         self.address = Address(address)
 
-    def to_json(self) -> dict:                           # convers records for json
+    def to_json(self) -> dict:  # convers records for json
         phones = []
         for item in self.phones:
             phones.append(str(item))
@@ -88,4 +87,3 @@ class Record:
             "email": str(self.email),
             "address": str(self.address),
         }
-    

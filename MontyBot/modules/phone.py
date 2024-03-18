@@ -3,6 +3,7 @@ try:
 except ImportError:
     from helpers.monty_utils import check_phone
 
+
 class Phone:
     def __init__(self, phone: str):
         phone = check_phone(phone)
